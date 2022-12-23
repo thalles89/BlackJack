@@ -1,6 +1,13 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public class Player {
     private String name;
 
@@ -10,16 +17,16 @@ public class Player {
         this.name = name;
     }
 
-    String getName(){
+    public String getName(){
         return this.name;
     }
     
-    List<Card> receiveCards(List<Card> dealedCards){
+    public List<Card> receiveCards(List<Card> dealedCards){
         cards.addAll(dealedCards);
         return cards;
     }
 
-    List<Card> seeCards(){
+    public List<Card> seeCards(){
         return cards;
     }
 }

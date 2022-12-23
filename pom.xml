@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>BlackJack</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -15,3 +15,28 @@
     </properties>
 
 </project>
+
+<plugin>
+<groupId>com.iluwatar.urm</groupId>
+<artifactId>urm-maven-plugin</artifactId>
+<version>1.4.8</version>
+<configuration>
+    <outputDirectory>${project.basedir}/target</outputDirectory>
+    <packages>
+        <param>be.cylab.mark.server</param>
+    </packages>
+    <ignores>
+    </ignores>
+    <includeMainDirectory>true</includeMainDirectory>
+    <includeTestDirectory>false</includeTestDirectory>
+    <presenter>graphviz</presenter>
+</configuration>
+<executions>
+    <execution>
+        <phase>process-classes</phase>
+        <goals>
+            <goal>map</goal>
+        </goals>
+    </execution>
+</executions>
+</plugin>

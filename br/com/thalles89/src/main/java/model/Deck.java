@@ -1,6 +1,14 @@
+package model;
+
 import java.util.LinkedList;
 import java.util.List;
 
+
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public class Deck {
 
     private final List<Card> deck;

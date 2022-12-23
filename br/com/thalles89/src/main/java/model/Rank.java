@@ -1,3 +1,10 @@
+package model;
+
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public class Rank {
 
     public static final Rank TWO = new Rank(2, "2");

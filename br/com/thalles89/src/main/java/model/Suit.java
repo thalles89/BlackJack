@@ -1,3 +1,10 @@
+package model;
+
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public class Suit {
     public static final Suit HEARTS = new Suit((char) 3);
     public static final Suit DIAMONDS = new Suit((char) 4);

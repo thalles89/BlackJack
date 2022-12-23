@@ -1,6 +1,13 @@
+package interfaces;
+
 import java.util.Iterator;
 import java.util.function.Consumer;
 
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public interface DeckIterator extends Iterator {
     @Override
     boolean hasNext();

@@ -1,5 +1,13 @@
+package model;
+
 import java.util.Collections;
 
+
+
+/**
+ * @author Thalles
+ * @version 0.0.1
+ * */
 public class Dealer {
 	private final Deck deck;
 	
