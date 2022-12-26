@@ -12,12 +12,11 @@ import java.util.List;
  */
 public class BlackJackDealer extends Player implements Dealer {
     private final DeckPile deck;
-    private List<Player> players = new ArrayList<>();
-    private List<Player> bustedPlayers = new ArrayList<>();
-    private List<Player> blackjackPlayers = new ArrayList<>();
-    private List<Player> waitingPlayers = new ArrayList<>();
-    private List<Player> standingPlayers = new ArrayList<>();
-    private int indexPlayer;
+    private final List<Player> players = new ArrayList<>();
+    private List<Player> bustedPlayers;
+    private List<Player> blackjackPlayers;
+    private List<Player> waitingPlayers;
+    private List<Player> standingPlayers;
 
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
@@ -26,21 +25,9 @@ public class BlackJackDealer extends Player implements Dealer {
 
     public void deal() {
         deck.shuffle();
-        // distribui uma carta para cada jogado e por ultimo
-        // para si mesmo (dealer)
-        Player[] player = new Player[players.size()];
-        players.toArray(player);
-
-        for (Player item : player) {
-            item.reset();
-            item.addCard(deck.dealUp());
-        }
+        players.forEach(player -> player.addCard(deck.dealUp()));
         this.deck.dealUp();
-        // distribui uma carta para cada jogado e por ultimo
-        // para si mesmo (dealer) virada para baixo
-        for (Player item : player) {
-            item.addCard(deck.dealUp());
-        }
+        players.forEach(player -> player.addCard(deck.dealUp()));
         this.deck.dealDown();
 
     }
@@ -49,31 +36,37 @@ public class BlackJackDealer extends Player implements Dealer {
         players.add(player);
     }
 
-    public void newGame() {
-        deal();
-        passTurn();
+    @Override
+    public void reset() {
+        super.reset();
+
+        bustedPlayers = new ArrayList<>();
+        blackjackPlayers = new ArrayList<>();
+        waitingPlayers = new ArrayList<>();
+        standingPlayers = new ArrayList<>();
+
+//        players.forEach(Player::reset);
+
     }
 
-    @Override
-    protected PlayerState getInitialState() {
-        return new DealerWaiting();
+    public void newGame() {
+        reset();
+        play(this);
     }
 
     @Override
     public void passTurn() {
-
-        if (indexPlayer != players.size()) {
-            Player player = players.get(indexPlayer);
-            indexPlayer++;
-            player.play(this);
-        } else {
-            this.play(this);
-        }
+        players.forEach(player -> player.play(this));
+        this.play(this);
     }
 
     @Override
     public void hit(Player player) {
         player.addCard(deck.dealUp());
+    }
+
+    protected boolean hit(Dealer dealer){
+        return standingPlayers.size() > 0 && getHand().total() < 17;
     }
 
     @Override
@@ -93,7 +86,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
     @Override
     protected Boolean hit() {
-        return getHand().total() > 16;
+        return getHand().total() < 16;
     }
 
     @Override
@@ -132,6 +125,9 @@ public class BlackJackDealer extends Player implements Dealer {
         return new DealerStanding();
     }
 
+    public PlayerState getDealingState(){
+        return new DealerDealing();
+    }
     private class DealerBusted implements PlayerState {
 
         @Override

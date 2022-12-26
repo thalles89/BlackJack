@@ -21,7 +21,6 @@ public abstract class Player {
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
-        currentState = new Waiting();
     }
 
     public void addCard(Card card) {
@@ -192,7 +191,7 @@ public abstract class Player {
 
         @Override
         public void execute(Dealer dealer) {
-            dealer.blackjack(Player.this); // TODO falta implementar o metodo busted
+            dealer.blackjack(Player.this);
         }
     }
 

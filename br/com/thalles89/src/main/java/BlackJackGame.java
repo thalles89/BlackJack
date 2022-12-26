@@ -19,13 +19,20 @@ public class BlackJackGame {
         Hand dealerHand = new Hand();
         BlackJackDealer dealer = new BlackJackDealer("Dealer", dealerHand, stack);
 
-        Hand humanHand = new Hand();
-        HumanPlayer human = new HumanPlayer("Human", humanHand);
-
+        Hand player1Hand = new Hand();
+        HumanPlayer player1 = new HumanPlayer("player1", player1Hand);
+        player1.addListener(Console.INSTANCE);
+        Hand player2Hand = new Hand();
+        HumanPlayer player2 = new HumanPlayer("player2", player2Hand);
+        player2.addListener(Console.INSTANCE);
+        Hand player3Hand = new Hand();
+        HumanPlayer player3 = new HumanPlayer("player3", player3Hand);
+        player3.addListener(Console.INSTANCE);
         dealer.addListener(Console.INSTANCE);
-        human.addListener(Console.INSTANCE);
 
-        dealer.addPlayer(human);
+        dealer.addPlayer(player1);
+        dealer.addPlayer(player2);
+        dealer.addPlayer(player3);
         dealer.newGame();
     }
 
