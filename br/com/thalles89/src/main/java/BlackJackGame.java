@@ -4,9 +4,9 @@ import model.*;
  * @author Thalles
  * @version 0.0.1
  */
-public class BalckJackGame {
+public class BlackJackGame {
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) {
 
         DeckPile stack = new DeckPile();
 
@@ -17,7 +17,7 @@ public class BalckJackGame {
         }
 
         Hand dealerHand = new Hand();
-        BalckJackDealer dealer = new BalckJackDealer("Dealer", dealerHand, stack);
+        BlackJackDealer dealer = new BlackJackDealer("Dealer", dealerHand, stack);
 
         Hand humanHand = new Hand();
         HumanPlayer human = new HumanPlayer("Human", humanHand);
@@ -26,7 +26,6 @@ public class BalckJackGame {
         human.addListener(Console.INSTANCE);
 
         dealer.addPlayer(human);
-        dealer.addPlayer(dealer);
         dealer.newGame();
     }
 

@@ -1,7 +1,6 @@
 package model;
 
 import interfaces.Dealer;
-import interfaces.HandListener;
 import interfaces.PalyerListener;
 import interfaces.PlayerState;
 
@@ -22,6 +21,7 @@ public abstract class Player {
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
+        currentState = new Waiting();
     }
 
     public void addCard(Card card) {
@@ -35,16 +35,6 @@ public abstract class Player {
 
     public Boolean isBusted() {
         return hand.bust();
-    }
-
-    protected void notifyBusted() {
-
-    }
-    protected void notifyChanged() {
-
-    }
-    protected void notifyBlackJack() {
-
     }
 
     public void play(Dealer dealer) {
@@ -65,7 +55,7 @@ public abstract class Player {
 
     protected abstract Boolean hit();
 
-    private void setCurrentState(PlayerState state) {
+    protected void setCurrentState(PlayerState state) {
         currentState = state;
     }
 
@@ -73,23 +63,35 @@ public abstract class Player {
         notifyWin();
     }
 
+    protected void notifyChanged() {
+        listeners.forEach(pl->pl.playerChanged(this));
+    }
+    protected void notifyBusted() {
+        listeners.forEach(pl->pl.playerBusted(this));
+    }
+    protected void notifyBlackJack() {
+        listeners.forEach(pl->pl.playerBlackjack(this));
+    }
+    private void notifyStanding() {
+        listeners.forEach(pl->pl.playerStanding(this));
+    }
+    private void notifyStanoff() {
+        listeners.forEach(pl->pl.playerStandOff(this));
+    }
     private void notifyWin() {
+        listeners.forEach(player->player.playerWon(this));
     }
-
-    public void loose(){
-        notifyLoose();
-    }
-
     private void notifyLoose() {
+        listeners.forEach(player->player.playerLost(this));
+    }
+
+    public void lose(){
+        notifyLoose();
     }
 
     public void standoff(){
         notifyStanoff();
     }
-
-    private void notifyStanoff() {
-    }
-
     public void blackjack(){
         notifyBlackJack();
     }
@@ -103,6 +105,10 @@ public abstract class Player {
         return new Playing();
     }
 
+    public PlayerState getCurrentState() {
+        return currentState;
+    }
+
     protected PlayerState getBustedState(){
         return new Busted();
     }
@@ -111,9 +117,9 @@ public abstract class Player {
 
     protected PlayerState getWaitingState(){return new Waiting(); }
 
-    protected PlayerState getInitialState(){return new Waiting(); }
+    protected PlayerState getInitialState(){return getWaitingState(); }
 
-    protected PlayerState getStandingState(){return new Waiting(); }
+    protected PlayerState getStandingState(){return new Standing(); }
 
     private class Waiting implements PlayerState {
 
@@ -124,14 +130,12 @@ public abstract class Player {
 
         @Override
         public void handBlackjack() {
-            setCurrentState(getPlayingState());
+            setCurrentState(getBlackjackState());
             notifyBlackJack();
         }
 
         @Override
-        public void handBusted() {
-            //não faz nada
-        }
+        public void handBusted() {}
 
         @Override
         public void handChanged() {
@@ -139,9 +143,7 @@ public abstract class Player {
         }
 
         @Override
-        public void execute(Dealer dealer) {
-//não faz nada
-        }
+        public void execute(Dealer dealer) {}
     }
 
     private class Busted implements PlayerState {
@@ -165,7 +167,7 @@ public abstract class Player {
 
         @Override
         public void execute(Dealer dealer) {
-            dealer.busted(Player.this); // TODO falta implementar o metodo busted
+            dealer.busted(Player.this);
         }
     }
 
@@ -215,7 +217,7 @@ public abstract class Player {
 
         @Override
         public void execute(Dealer dealer) {
-            dealer.standing(Player.this); // TODO falta implementar o metodo busted
+            dealer.standing(Player.this);
         }
     }
 
@@ -223,6 +225,7 @@ public abstract class Player {
 
         @Override
         public void handPlayable() {
+
         }
 
         @Override
@@ -247,6 +250,7 @@ public abstract class Player {
                 dealer.hit(Player.this);
             }else{
                 setCurrentState(getStandingState());
+                notifyStanding();
             }
             currentState.execute(dealer);
         }

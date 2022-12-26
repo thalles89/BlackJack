@@ -18,13 +18,12 @@ public class HumanPlayer extends Player {
     protected Boolean hit() {
         while (true) {
             Console.INSTANCE.printMessage(MSG);
-            String respose = Console.INSTANCE.readInupt(DEFAULT);
-            if (respose.equalsIgnoreCase(HIT)) {
+            String response = Console.INSTANCE.readInupt(DEFAULT);
+            if (response.equalsIgnoreCase(HIT)) {
                 return true;
-            } else if (respose.equalsIgnoreCase(STAND)) {
+            } else if (response.equalsIgnoreCase(STAND)) {
                 return false;
             }
-
         }
     }
 

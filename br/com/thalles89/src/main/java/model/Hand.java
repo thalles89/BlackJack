@@ -3,7 +3,6 @@ package model;
 import interfaces.HandListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Hand {
@@ -49,11 +48,10 @@ public class Hand {
         }
         if(cards.size()>=2){
             holder.handPlayable();
-            return;
         }
     }
 
-    private boolean blackjack() {
+    protected boolean blackjack() {
         return cards.size() == 2 && total() == BLACKJACK;
     }
 
@@ -82,13 +80,12 @@ public class Hand {
         for (Card card : cards) {
             total += card.getRank().getRank();
         }
-        //this loops subtract the ace value in 10 if hand is grater than 21
+        // these loops subtract the ace value in 10 if hand is grater than 21
         int tempAces = aces;
         while(total > BLACKJACK && tempAces > 0){
             total -= 10;
             aces--;
         }
-
         return total;
     }
 
@@ -99,10 +96,6 @@ public class Hand {
             returnMsg.append(c.toString());
         }
         return returnMsg.toString();
-    }
-
-    public Iterator<Card> getCards(){
-        return cards.iterator();
     }
 
     public Boolean isEquals(Hand hand){

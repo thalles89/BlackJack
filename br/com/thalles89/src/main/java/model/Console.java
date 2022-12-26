@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 public class Console implements PalyerListener {
 
     public static final Console INSTANCE = new Console();
-    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     private Console() {
     }
@@ -32,7 +32,6 @@ public class Console implements PalyerListener {
             return input;
         }
     }
-
 
     @Override
     public void playerChanged(Player player) {

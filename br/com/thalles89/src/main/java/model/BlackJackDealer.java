@@ -10,7 +10,7 @@ import java.util.List;
  * @author Thalles
  * @version 0.0.1
  */
-public class BalckJackDealer extends Player implements Dealer {
+public class BlackJackDealer extends Player implements Dealer {
     private final DeckPile deck;
     private List<Player> players = new ArrayList<>();
     private List<Player> bustedPlayers = new ArrayList<>();
@@ -19,7 +19,7 @@ public class BalckJackDealer extends Player implements Dealer {
     private List<Player> standingPlayers = new ArrayList<>();
     private int indexPlayer;
 
-    public BalckJackDealer(String name, Hand hand, DeckPile pile) {
+    public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
         this.deck = pile;
     }
@@ -61,7 +61,7 @@ public class BalckJackDealer extends Player implements Dealer {
 
     @Override
     public void passTurn() {
-//        players.forEach(player -> player.play(this));
+
         if (indexPlayer != players.size()) {
             Player player = players.get(indexPlayer);
             indexPlayer++;
@@ -98,7 +98,7 @@ public class BalckJackDealer extends Player implements Dealer {
 
     @Override
     public void stopPlay(Dealer dealer) {
-//        super.stopPlay(dealer); // removido para intorremper o loop de jogo
+
     }
 
     @Override
