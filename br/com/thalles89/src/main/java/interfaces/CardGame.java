@@ -1,2 +1,4 @@
-package interfaces;public interface CardGame {
+package interfaces;
+
+public interface CardGame {
 }

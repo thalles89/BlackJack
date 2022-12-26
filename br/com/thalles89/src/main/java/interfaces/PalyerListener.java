@@ -2,7 +2,7 @@ package interfaces;
 
 import model.Player;
 
-public interface PalyerReceiver {
+public interface PalyerListener {
 
     public void handChanged(Player player);
 }

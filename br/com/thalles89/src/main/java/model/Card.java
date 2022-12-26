@@ -19,25 +19,13 @@ public class Card {
         return rank;
     }
 
-    public Suit getSuit() {
-        return suit;
-    }
-
-    public boolean isFaceUp() {
-        return faceUp;
-    }
-
-    public Card setFaceUp() {
-        this.faceUp = true;
+    public Card setFaceUp(Boolean faceUp) {
+        this.faceUp = faceUp;
         return this;
     }
 
-    public void setFaceDown() {
-        this.faceUp = false;
+    @Override
+    public String toString() {
+        return String.format("%s%s", rank, suit);
     }
-
-    public String display() {
-        return rank.toString() + suit.toString();
-    }
-
 }
