@@ -1,12 +1,9 @@
 package model;
 
 import interfaces.Dealer;
-import interfaces.PalyerListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Thalles
@@ -70,13 +67,28 @@ public class BalckJackDealer extends Player implements Dealer {
     }
 
     @Override
+    public void standing(Player player) {
+
+    }
+
+    @Override
+    public void blackjack(Player player) {
+
+    }
+
+    @Override
+    public void busted(Player player) {
+
+    }
+
+    @Override
     protected Boolean hit() {
         return getHand().total() > 16;
     }
 
     @Override
     public void stopPlay(Dealer dealer) {
-//        super.stopPlay(dealer);
+//        super.stopPlay(dealer); // removido para intorremper o loop de jogo
     }
 
     @Override
@@ -87,7 +99,7 @@ public class BalckJackDealer extends Player implements Dealer {
 
     private void exposeCards() {
         getHand().turnOver();
-        notifyListeners();
+        notifyChanged();
     }
 
 }
