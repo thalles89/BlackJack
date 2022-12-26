@@ -8,10 +8,10 @@ import java.util.Collections;
  * @author Thalles
  * @version 0.0.1
  * */
-public class Dealer {
+public class BalckJackDealer {
 	private final Deck deck;
 	
-	public Dealer(Deck deck) {
+	public BalckJackDealer(Deck deck) {
 		this.deck = deck;
 	}
 	
