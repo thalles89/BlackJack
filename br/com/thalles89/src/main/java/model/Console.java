@@ -1,6 +1,6 @@
 package model;
 
-import interfaces.PalyerListener;
+import interfaces.PlayerListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,20 +12,19 @@ import java.io.InputStreamReader;
  *
  * @author Thalles
  */
-public class Console implements PalyerListener {
-
-    public static final Console INSTANCE = new Console();
-    private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
+public class Console implements PlayerListener {
     private Console() {
     }
+
+    public static final Console INSTANCE = new Console();
+
+    private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public void printMessage(String message) {
         System.out.println(message);
     }
 
-    public String readInupt(String input) {
-        String response;
+    public String readInput(String input) {
         try {
             return in.readLine();
         } catch (IOException exception) {
@@ -61,12 +60,10 @@ public class Console implements PalyerListener {
     @Override
     public void playerLost(Player player) {
         printMessage(player.toString() + " LOSER!!!!");
-
     }
 
     @Override
     public void playerStandOff(Player player) {
-        printMessage(player.toString() + " Droped off!!!!");
-
+        printMessage(player.toString() + " Dropped off!!!!");
     }
 }

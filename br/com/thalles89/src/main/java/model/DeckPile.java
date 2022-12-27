@@ -39,5 +39,7 @@ public class DeckPile {
     }
 
 
+    public void reset() {
 
+    }
 }

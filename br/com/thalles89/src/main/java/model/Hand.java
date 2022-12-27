@@ -36,27 +36,28 @@ public class Hand {
         cards.add(card);
         holder.handChanged();
 
-        if(card.getRank() == Rank.ACE){
+        if (card.getRank() == Rank.ACE) {
             aces++;
         }
-        if(bust()){
+        if (bust()) {
             holder.handBusted();
+            return;
         }
-        if (blackjack()){
+        if (blackjack()) {
             holder.handBlackjack();
             return;
         }
-        if(cards.size()>=2){
+        if (cards.size() >= 2) {
             holder.handPlayable();
         }
     }
 
-    protected boolean blackjack() {
-        return cards.size() == 2 && total() == BLACKJACK;
-    }
-
     public void setHolder(HandListener listener) {
         this.holder = listener;
+    }
+
+    public boolean blackjack() {
+        return (cards.size() == 2) && (total() == BLACKJACK);
     }
 
     public Boolean bust() {
@@ -65,7 +66,7 @@ public class Hand {
 
     public void reset() {
         this.cards.clear();
-        this.aces=0;
+        this.aces = 0;
     }
 
     public void turnOver() {
@@ -80,9 +81,9 @@ public class Hand {
         for (Card card : cards) {
             total += card.getRank().getRank();
         }
-        // these loops subtract the ace value in 10 if hand is grater than 21
+        // this loop subtract the ace value in 10 if hand is grater than 21
         int tempAces = aces;
-        while(total > BLACKJACK && tempAces > 0){
+        while (total > BLACKJACK && tempAces > 0) {
             total -= 10;
             aces--;
         }
@@ -98,11 +99,11 @@ public class Hand {
         return returnMsg.toString();
     }
 
-    public Boolean isEquals(Hand hand){
+    public Boolean isEquals(Hand hand) {
         return this.total() == hand.total();
     }
 
-    public Boolean isGreaterThan(Hand hand){
+    public Boolean isGreaterThan(Hand hand) {
         return this.total() > hand.total();
     }
 }

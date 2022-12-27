@@ -26,10 +26,9 @@ public class BlackJackDealer extends Player implements Dealer {
     public void deal() {
         deck.shuffle();
         players.forEach(player -> player.addCard(deck.dealUp()));
-        this.deck.dealUp();
+        this.addCard(deck.dealUp());
         players.forEach(player -> player.addCard(deck.dealUp()));
-        this.deck.dealDown();
-
+        this.addCard(deck.dealDown());
     }
 
     public void addPlayer(Player player) {
@@ -40,18 +39,21 @@ public class BlackJackDealer extends Player implements Dealer {
     public void reset() {
         super.reset();
 
-        bustedPlayers = new ArrayList<>();
-        blackjackPlayers = new ArrayList<>();
         waitingPlayers = new ArrayList<>();
         standingPlayers = new ArrayList<>();
+        bustedPlayers = new ArrayList<>();
+        blackjackPlayers = new ArrayList<>();
 
-//        players.forEach(Player::reset);
+//        deck.reset();
 
+        players.forEach(Player::reset);
     }
 
     public void newGame() {
         reset();
-        play(this);
+        deal();
+        passTurn();
+//        play(this);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class BlackJackDealer extends Player implements Dealer {
         player.addCard(deck.dealUp());
     }
 
-    protected boolean hit(Dealer dealer){
+    protected boolean hit(Dealer dealer) {
         return standingPlayers.size() > 0 && getHand().total() < 17;
     }
 
@@ -125,9 +127,10 @@ public class BlackJackDealer extends Player implements Dealer {
         return new DealerStanding();
     }
 
-    public PlayerState getDealingState(){
+    public PlayerState getDealingState() {
         return new DealerDealing();
     }
+
     private class DealerBusted implements PlayerState {
 
         @Override
@@ -176,6 +179,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void execute(Dealer dealer) {
+            exposeHand();
             players.forEach(player -> {
                 if (player.getHand().blackjack()) {
                     player.standoff();
@@ -261,6 +265,11 @@ public class BlackJackDealer extends Player implements Dealer {
     private class DealerDealing implements PlayerState {
 
         @Override
+        public void handChanged() {
+            notifyChanged();
+        }
+
+        @Override
         public void handPlayable() {
             setCurrentState(getWaitingState());
         }
@@ -274,11 +283,6 @@ public class BlackJackDealer extends Player implements Dealer {
         @Override
         public void handBusted() {
 
-        }
-
-        @Override
-        public void handChanged() {
-            notifyChanged();
         }
 
         @Override

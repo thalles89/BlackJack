@@ -28,8 +28,8 @@ public class BlackJackGame {
         Hand player3Hand = new Hand();
         HumanPlayer player3 = new HumanPlayer("player3", player3Hand);
         player3.addListener(Console.INSTANCE);
-        dealer.addListener(Console.INSTANCE);
 
+        dealer.addListener(Console.INSTANCE);
         dealer.addPlayer(player1);
         dealer.addPlayer(player2);
         dealer.addPlayer(player3);

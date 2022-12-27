@@ -4,9 +4,9 @@ import model.Player;
 
 public interface Dealer {
 
-    public void passTurn();
-    public void hit(Player player);
-    public void standing(Player player);
-    public void blackjack(Player player);
-    public void busted(Player player);
+    void passTurn();
+    void hit(Player player);
+    void standing(Player player);
+    void blackjack(Player player);
+    void busted(Player player);
 }

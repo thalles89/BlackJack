@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Scanner;
-
 public class HumanPlayer extends Player {
 
     private static final String HIT = "H";
@@ -17,8 +15,8 @@ public class HumanPlayer extends Player {
     @Override
     protected Boolean hit() {
         while (true) {
-            Console.INSTANCE.printMessage(MSG);
-            String response = Console.INSTANCE.readInupt(DEFAULT);
+            Console.INSTANCE.printMessage(this.getName()+" " + MSG);
+            String response = Console.INSTANCE.readInput(DEFAULT);
             if (response.equalsIgnoreCase(HIT)) {
                 return true;
             } else if (response.equalsIgnoreCase(STAND)) {

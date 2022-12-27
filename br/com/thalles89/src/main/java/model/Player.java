@@ -1,7 +1,7 @@
 package model;
 
 import interfaces.Dealer;
-import interfaces.PalyerListener;
+import interfaces.PlayerListener;
 import interfaces.PlayerState;
 
 import java.util.ArrayList;
@@ -13,14 +13,15 @@ import java.util.List;
  * @version 0.0.1
  */
 public abstract class Player {
-    private String name;
-    private final List<PalyerListener> listeners = new ArrayList<>();
+    private final String name;
+    private final List<PlayerListener> listeners = new ArrayList<>();
     private final Hand hand;
     private PlayerState currentState;
 
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
+        setCurrentState(getInitialState());
     }
 
     public void addCard(Card card) {
@@ -30,6 +31,8 @@ public abstract class Player {
 
     public void reset() {
         hand.reset();
+        setCurrentState(getInitialState());
+        notifyChanged();
     }
 
     public Boolean isBusted() {
@@ -44,7 +47,7 @@ public abstract class Player {
         dealer.passTurn();
     }
 
-    public void addListener(PalyerListener iPalyerReceiver) {
+    public void addListener(PlayerListener iPalyerReceiver) {
         listeners.add(iPalyerReceiver);
     }
 
@@ -53,15 +56,22 @@ public abstract class Player {
     }
 
     protected abstract Boolean hit();
-
     protected void setCurrentState(PlayerState state) {
         currentState = state;
+        hand.setHolder(state);
     }
-
     public void win(){
         notifyWin();
     }
-
+    public void lose(){
+        notifyLose();
+    }
+    public void standoff(){
+        notifyStandoff();
+    }
+    public void blackjack(){
+        notifyBlackJack();
+    }
     protected void notifyChanged() {
         listeners.forEach(pl->pl.playerChanged(this));
     }
@@ -74,40 +84,25 @@ public abstract class Player {
     private void notifyStanding() {
         listeners.forEach(pl->pl.playerStanding(this));
     }
-    private void notifyStanoff() {
+    private void notifyStandoff() {
         listeners.forEach(pl->pl.playerStandOff(this));
     }
     private void notifyWin() {
         listeners.forEach(player->player.playerWon(this));
     }
-    private void notifyLoose() {
+    private void notifyLose() {
         listeners.forEach(player->player.playerLost(this));
     }
-
-    public void lose(){
-        notifyLoose();
-    }
-
-    public void standoff(){
-        notifyStanoff();
-    }
-    public void blackjack(){
-        notifyBlackJack();
-    }
-
     @Override
     public String toString() {
         return String.format("%s: %s", name, hand.toString());
     }
-
     protected PlayerState getPlayingState() {
         return new Playing();
     }
-
-    public PlayerState getCurrentState() {
+    protected final PlayerState getCurrentState() {
         return currentState;
     }
-
     protected PlayerState getBustedState(){
         return new Busted();
     }
@@ -116,9 +111,13 @@ public abstract class Player {
 
     protected PlayerState getWaitingState(){return new Waiting(); }
 
-    protected PlayerState getInitialState(){return getWaitingState(); }
+    protected PlayerState getInitialState(){return new Waiting(); }
 
     protected PlayerState getStandingState(){return new Standing(); }
+
+    protected String getName() {
+        return this.name;
+    }
 
     private class Waiting implements PlayerState {
 

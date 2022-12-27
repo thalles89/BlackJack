@@ -26,6 +26,9 @@ public class Card {
 
     @Override
     public String toString() {
-        return String.format("%s%s", rank, suit);
+        if(faceUp){
+            return String.format("%s%s", rank, suit);
+        }
+        return String.format("%s%s", "#", "#");
     }
 }
