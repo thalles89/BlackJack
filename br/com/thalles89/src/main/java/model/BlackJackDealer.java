@@ -4,6 +4,7 @@ import interfaces.Dealer;
 import interfaces.PlayerState;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,16 +18,11 @@ public class BlackJackDealer extends Player implements Dealer {
     private List<Player> blackjackPlayers;
     private List<Player> waitingPlayers;
     private List<Player> standingPlayers;
+    private List<Player> bettingPlayers;
 
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
         this.deck = pile;
-//        setCurrentState(getInitialState());
-    }
-
-    @Override
-    protected PlayerState getInitialState() {
-        return getDealingState();
     }
 
     public void deal() {
@@ -48,20 +44,13 @@ public class BlackJackDealer extends Player implements Dealer {
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
-
+        bettingPlayers = new LinkedList<>(players);
         players.forEach(Player::reset);
     }
 
     public void newGame() {
         reset();
-        deal();
-        passTurn();
-//        play(this);
-    }
-
-    public void passTurn() {
-        players.forEach(player -> player.play(this));
-        this.play(this);
+        play(this);
     }
 
     @Override
@@ -76,16 +65,25 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void standing(Player player) {
         standingPlayers.add(player);
+        play(this);
     }
 
     @Override
     public void blackjack(Player player) {
         blackjackPlayers.add(player);
+        play(this);
     }
 
     @Override
     public void busted(Player player) {
         bustedPlayers.add(player);
+        play(this);
+    }
+
+    @Override
+    public void doneBetting(BettingPlayer bettingPlayer) {
+        waitingPlayers.add(bettingPlayer);
+        play(this);
     }
 
     @Override
@@ -97,6 +95,11 @@ public class BlackJackDealer extends Player implements Dealer {
     private void exposeHand() {
         getHand().turnOver();
         notifyChanged();
+    }
+
+    @Override
+    protected PlayerState getInitialState() {
+        return new DealerCollectingBets();
     }
 
     @Override
@@ -174,7 +177,7 @@ public class BlackJackDealer extends Player implements Dealer {
             exposeHand();
             players.forEach(player -> {
                 if (player.getHand().blackjack()) {
-                    player.blackjack();
+                    player.standoff();
                 } else {
                     player.lose();
                 }
@@ -283,4 +286,42 @@ public class BlackJackDealer extends Player implements Dealer {
             getCurrentState().execute(dealer);
         }
     }
+
+    private class DealerCollectingBets implements PlayerState{
+
+        @Override
+        public void handPlayable() {
+
+        }
+
+        @Override
+        public void handBlackjack() {
+
+        }
+
+        @Override
+        public void handBusted() {
+
+        }
+
+        @Override
+        public void handChanged() {
+
+        }
+
+        @Override
+        public void execute(Dealer dealer) {
+
+            if(!bettingPlayers.isEmpty()){
+                Player player = bettingPlayers.get(0);
+                bettingPlayers.remove(player);
+                player.play(dealer);
+            }else{
+                setCurrentState(getDealingState());
+                getCurrentState().execute(dealer);
+            }
+
+        }
+    }
+
 }
