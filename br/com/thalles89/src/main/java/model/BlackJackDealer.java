@@ -65,16 +65,19 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void standing(Player player) {
         standingPlayers.add(player);
+        play(this);
     }
 
     @Override
     public void blackjack(Player player) {
         blackjackPlayers.add(player);
+        play(this);
     }
 
     @Override
     public void busted(Player player) {
         bustedPlayers.add(player);
+        play(this);
     }
 
     @Override
@@ -174,7 +177,7 @@ public class BlackJackDealer extends Player implements Dealer {
             exposeHand();
             players.forEach(player -> {
                 if (player.getHand().blackjack()) {
-                    player.blackjack();
+                    player.standoff();
                 } else {
                     player.lose();
                 }
