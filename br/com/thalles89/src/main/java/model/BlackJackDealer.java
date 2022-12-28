@@ -21,6 +21,12 @@ public class BlackJackDealer extends Player implements Dealer {
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
         this.deck = pile;
+//        setCurrentState(getInitialState());
+    }
+
+    @Override
+    protected PlayerState getInitialState() {
+        return getDealingState();
     }
 
     public void deal() {
@@ -37,14 +43,11 @@ public class BlackJackDealer extends Player implements Dealer {
 
     @Override
     public void reset() {
-        super.reset();
 
         waitingPlayers = new ArrayList<>();
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
-
-//        deck.reset();
 
         players.forEach(Player::reset);
     }
@@ -56,7 +59,6 @@ public class BlackJackDealer extends Player implements Dealer {
 //        play(this);
     }
 
-    @Override
     public void passTurn() {
         players.forEach(player -> player.play(this));
         this.play(this);
@@ -67,7 +69,7 @@ public class BlackJackDealer extends Player implements Dealer {
         player.addCard(deck.dealUp());
     }
 
-    protected boolean hit(Dealer dealer) {
+    protected Boolean hit(Dealer dealer) {
         return standingPlayers.size() > 0 && getHand().total() < 17;
     }
 
@@ -84,16 +86,6 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void busted(Player player) {
         bustedPlayers.add(player);
-    }
-
-    @Override
-    protected Boolean hit() {
-        return getHand().total() < 16;
-    }
-
-    @Override
-    public void stopPlay(Dealer dealer) {
-
     }
 
     @Override
@@ -182,7 +174,7 @@ public class BlackJackDealer extends Player implements Dealer {
             exposeHand();
             players.forEach(player -> {
                 if (player.getHand().blackjack()) {
-                    player.standoff();
+                    player.blackjack();
                 } else {
                     player.lose();
                 }

@@ -1,5 +1,7 @@
 package model;
 
+import interfaces.Dealer;
+
 public class HumanPlayer extends Player {
 
     private static final String HIT = "H";
@@ -13,9 +15,9 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    protected Boolean hit() {
+    protected Boolean hit(Dealer dealer) {
         while (true) {
-            Console.INSTANCE.printMessage(this.getName()+" " + MSG);
+            Console.INSTANCE.printMessage(this.getName()+" "+MSG);
             String response = Console.INSTANCE.readInput(DEFAULT);
             if (response.equalsIgnoreCase(HIT)) {
                 return true;

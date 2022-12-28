@@ -14,37 +14,30 @@ import java.util.List;
  */
 public abstract class Player {
     private final String name;
-    private final List<PlayerListener> listeners = new ArrayList<>();
+    private List<PlayerListener> listeners;
     private final Hand hand;
     private PlayerState currentState;
 
     public Player(String name, Hand hand) {
         this.name = name;
         this.hand = hand;
+        listeners = new ArrayList<>();
         setCurrentState(getInitialState());
     }
 
     public void addCard(Card card) {
         hand.addCard(card);
-        notifyChanged();
+//        notifyChanged();
     }
 
     public void reset() {
         hand.reset();
         setCurrentState(getInitialState());
-        notifyChanged();
-    }
-
-    public Boolean isBusted() {
-        return hand.bust();
+//        notifyChanged();
     }
 
     public void play(Dealer dealer) {
         currentState.execute(dealer);
-    }
-
-    public void stopPlay(Dealer dealer) {
-        dealer.passTurn();
     }
 
     public void addListener(PlayerListener iPalyerReceiver) {
@@ -55,7 +48,7 @@ public abstract class Player {
         return hand;
     }
 
-    protected abstract Boolean hit();
+    protected abstract Boolean hit(Dealer dealer);
     protected void setCurrentState(PlayerState state) {
         currentState = state;
         hand.setHolder(state);
@@ -244,7 +237,7 @@ public abstract class Player {
         @Override
         public void execute(Dealer dealer) {
 
-            if(hit()){
+            if(hit(dealer)){
                 dealer.hit(Player.this);
             }else{
                 setCurrentState(getStandingState());
