@@ -3,14 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class DeckPile {
 
-    List<Card> stack;
+    List<Card> stack = new ArrayList<>();
     private int index;
-    public void addCards(List<Card> deck){
-       stack = new ArrayList<>(deck);
+    public void addCards(List<Card> cards){
+       stack.addAll(cards);
     }
 
     public void shuffle(){
@@ -19,6 +18,7 @@ public class DeckPile {
 
     public Card dealUp(){
         Card card = deal();
+        assert card != null;
         return card.setFaceUp(true);
     }
 
@@ -35,11 +35,12 @@ public class DeckPile {
 
     public Card dealDown(){
         Card card = deal();
+        assert card != null;
         return card.setFaceUp(false);
     }
 
 
-    public void reset() {
-
+    public List<Card> getStack() {
+        return stack;
     }
 }

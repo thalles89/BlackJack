@@ -86,12 +86,6 @@ public class BlackJackDealer extends Player implements Dealer {
         play(this);
     }
 
-    @Override
-    public void play(Dealer dealer) {
-        exposeHand();
-        super.play(dealer);
-    }
-
     private void exposeHand() {
         getHand().turnOver();
         notifyChanged();

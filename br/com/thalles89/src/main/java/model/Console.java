@@ -54,7 +54,7 @@ public class Console implements PlayerListener {
 
     @Override
     public void playerWon(Player player) {
-        printMessage(player.toString() + " WINNER!!!!");
+        printMessage(player.toString() + " WINNER!!!!" );
     }
 
     @Override

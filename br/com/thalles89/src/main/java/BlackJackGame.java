@@ -18,7 +18,7 @@ public class BlackJackGame {
 
         Hand dealerHand = new Hand();
         BlackJackDealer dealer = new BlackJackDealer("Dealer", dealerHand, stack);
-
+        System.out.println(stack.getStack().size());
         Hand player1Hand = new Hand();
         HumanPlayer player1 = new HumanPlayer("player1", player1Hand);
         player1.addListener(Console.INSTANCE);
