@@ -19,6 +19,7 @@ public class BlackJackDealer extends Player implements Dealer {
     private List<Player> waitingPlayers;
     private List<Player> standingPlayers;
     private List<Player> bettingPlayers;
+    private List<Player> doublingPlayers;
 
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
@@ -45,6 +46,7 @@ public class BlackJackDealer extends Player implements Dealer {
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
         bettingPlayers = new LinkedList<>(players);
+        doublingPlayers = new ArrayList<>();
         players.forEach(Player::reset);
     }
 
@@ -59,6 +61,9 @@ public class BlackJackDealer extends Player implements Dealer {
     }
 
     protected Boolean hit(Dealer dealer) {
+        boolean dealerMayhit = false;
+        //TODO verificar a mão do jogador e comprar se a mão for pior
+//        players.forEach(player -> getHand().isGreaterThan(player.getHand()));
         return standingPlayers.size() > 0 && getHand().total() < 17;
     }
 
@@ -83,6 +88,12 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void doneBetting(BettingPlayer bettingPlayer) {
         waitingPlayers.add(bettingPlayer);
+        play(this);
+    }
+
+    @Override
+    public void doubleDown(Player bettingPlayer) {
+        doublingPlayers.add(bettingPlayer);
         play(this);
     }
 
@@ -118,6 +129,10 @@ public class BlackJackDealer extends Player implements Dealer {
 
     public PlayerState getDealingState() {
         return new DealerDealing();
+    }
+
+    public PlayerState getDoublingState() {
+        return new DealerDoublingBets();
     }
 
     private class DealerBusted implements PlayerState {
@@ -219,6 +234,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handPlayable() {
+
         }
 
         @Override
@@ -260,7 +276,8 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handPlayable() {
-            setCurrentState(getWaitingState());
+            setCurrentState(getWaitingState()); // goes to waiting state
+
         }
 
         @Override
@@ -278,10 +295,11 @@ public class BlackJackDealer extends Player implements Dealer {
         public void execute(Dealer dealer) {
             deal();
             getCurrentState().execute(dealer);
+
         }
     }
 
-    private class DealerCollectingBets implements PlayerState{
+    private class DealerCollectingBets implements PlayerState {
 
         @Override
         public void handPlayable() {
@@ -300,21 +318,59 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handChanged() {
-
+            notifyChanged();
         }
 
         @Override
         public void execute(Dealer dealer) {
 
-            if(!bettingPlayers.isEmpty()){
-                Player player = bettingPlayers.get(0);
-                bettingPlayers.remove(player);
-                player.play(dealer);
-            }else{
+            if (!bettingPlayers.isEmpty()) {
+                bettingPlayers.forEach(player -> {
+                    bettingPlayers.remove(player);
+                    player.play(dealer);
+                });
+
+            } else {
                 setCurrentState(getDealingState());
                 getCurrentState().execute(dealer);
             }
 
+        }
+    }
+
+    private class DealerDoublingBets implements PlayerState {
+
+        @Override
+        public void handPlayable() {
+        }
+
+        @Override
+        public void handBlackjack() {
+            notifyBlackJack();
+        }
+
+        @Override
+        public void handBusted() {
+            notifyBusted();
+        }
+
+        @Override
+        public void handChanged() {
+            notifyChanged();
+        }
+
+        @Override
+        public void execute(Dealer dealer) {
+            if (!doublingPlayers.isEmpty()) {
+                for (Player player: doublingPlayers) {
+                    doublingPlayers.remove(player);
+                    player.play(dealer);
+                }
+
+            } else {
+                setCurrentState(getStandingState());
+                getCurrentState().execute(dealer);
+            }
         }
     }
 

@@ -7,11 +7,13 @@ public class HumanPlayer extends BettingPlayer {
     private static final String HIT = "H";
     private static final String STAND = "S";
     private static final String MSG = "[H]it or [S]tand";
+    private static final String DD = "[Y]ES or [N]o";
     private static final String BET_MSG = "Place Bet [10], [50] OR [100]";
     private static final String BET_10 = "10";
     private static final String BET_50 = "50";
     private static final String BET_100 = "100";
-
+    private static final String YES = "Y";
+    private static final String NO = "N";
     private static final String DEFAULT = "invalid";
 
 
@@ -49,4 +51,19 @@ public class HumanPlayer extends BettingPlayer {
             }
         }
     }
+
+    @Override
+    protected Boolean doubleDown() {
+        while (true){
+            Console.INSTANCE.printMessage(this.getName()+" "+DD);
+            String response = Console.INSTANCE.readInput(DEFAULT);
+            if (response.equalsIgnoreCase(YES)) {
+                return true;
+            } else if (response.equalsIgnoreCase(NO)) {
+                setCurrentState(getWaitingState());
+                return false;
+            }
+        }
+    }
+
 }

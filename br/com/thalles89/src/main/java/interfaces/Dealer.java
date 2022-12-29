@@ -10,4 +10,5 @@ public interface Dealer {
     void blackjack(Player player);
     void busted(Player player);
     void doneBetting(BettingPlayer bettingPlayer);
+    void doubleDown(Player player);
 }

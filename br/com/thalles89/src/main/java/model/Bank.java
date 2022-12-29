@@ -17,7 +17,9 @@ public class Bank {
     public void place100Bet(){
         placeBet(100);
     }
-
+    public void doubleDown(){
+        placeBet(bet*=2);
+    }
     public void placeBet(Integer amount){
         this.bet = amount;
         total -= amount;

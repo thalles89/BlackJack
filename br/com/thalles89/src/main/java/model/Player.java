@@ -130,6 +130,7 @@ public abstract class Player {
         return new Standing();
     }
 
+
     protected abstract PlayerState getInitialState();
 
     private class Waiting implements PlayerState {
@@ -268,6 +269,5 @@ public abstract class Player {
             currentState.execute(dealer);
         }
     }
-
 
 }
