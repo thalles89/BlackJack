@@ -6,6 +6,7 @@ import interfaces.PlayerState;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Thalles
@@ -19,7 +20,6 @@ public class BlackJackDealer extends Player implements Dealer {
     private List<Player> waitingPlayers;
     private List<Player> standingPlayers;
     private List<Player> bettingPlayers;
-    private List<Player> doublingPlayers;
 
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
@@ -46,8 +46,8 @@ public class BlackJackDealer extends Player implements Dealer {
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
         bettingPlayers = new LinkedList<>(players);
-        doublingPlayers = new ArrayList<>();
         players.forEach(Player::reset);
+
     }
 
     public void newGame() {
@@ -60,11 +60,22 @@ public class BlackJackDealer extends Player implements Dealer {
         player.addCard(deck.dealUp());
     }
 
+    /**
+     * @param dealer receives the table dealer to execute the play actions
+     * @return a boolean success operation
+     * Dealer buys if players hand is grater than dealer's
+     * or if dealer's hand is lower than 17 (soft 17 strategy)
+    * */
     protected Boolean hit(Dealer dealer) {
-        boolean dealerMayhit = false;
-        //TODO verificar a mão do jogador e comprar se a mão for pior
-//        players.forEach(player -> getHand().isGreaterThan(player.getHand()));
-        return standingPlayers.size() > 0 && getHand().total() < 17;
+        AtomicBoolean dealerMayhit = new AtomicBoolean(false);
+        standingPlayers.forEach(player -> {
+            if(player.getHand().isGreaterThan(getHand())){
+                dealerMayhit.set(true);
+            }else{
+                dealerMayhit.set(standingPlayers.size() > 0 && getHand().total() < 17);
+            }
+        });
+        return dealerMayhit.get();
     }
 
     @Override
@@ -88,12 +99,6 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void doneBetting(BettingPlayer bettingPlayer) {
         waitingPlayers.add(bettingPlayer);
-        play(this);
-    }
-
-    @Override
-    public void doubleDown(Player bettingPlayer) {
-        doublingPlayers.add(bettingPlayer);
         play(this);
     }
 
@@ -131,9 +136,6 @@ public class BlackJackDealer extends Player implements Dealer {
         return new DealerDealing();
     }
 
-    public PlayerState getDoublingState() {
-        return new DealerDoublingBets();
-    }
 
     private class DealerBusted implements PlayerState {
 
@@ -277,7 +279,6 @@ public class BlackJackDealer extends Player implements Dealer {
         @Override
         public void handPlayable() {
             setCurrentState(getWaitingState()); // goes to waiting state
-
         }
 
         @Override
@@ -338,40 +339,5 @@ public class BlackJackDealer extends Player implements Dealer {
         }
     }
 
-    private class DealerDoublingBets implements PlayerState {
-
-        @Override
-        public void handPlayable() {
-        }
-
-        @Override
-        public void handBlackjack() {
-            notifyBlackJack();
-        }
-
-        @Override
-        public void handBusted() {
-            notifyBusted();
-        }
-
-        @Override
-        public void handChanged() {
-            notifyChanged();
-        }
-
-        @Override
-        public void execute(Dealer dealer) {
-            if (!doublingPlayers.isEmpty()) {
-                for (Player player: doublingPlayers) {
-                    doublingPlayers.remove(player);
-                    player.play(dealer);
-                }
-
-            } else {
-                setCurrentState(getStandingState());
-                getCurrentState().execute(dealer);
-            }
-        }
-    }
 
 }
