@@ -6,6 +6,7 @@ import interfaces.PlayerState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -85,19 +86,19 @@ public abstract class Player {
         listeners.forEach(pl -> pl.playerBlackjack(this));
     }
 
-    private void notifyStanding() {
+    protected void notifyStanding() {
         listeners.forEach(pl -> pl.playerStanding(this));
     }
 
-    private void notifyStandoff() {
+    protected void notifyStandoff() {
         listeners.forEach(pl -> pl.playerStandOff(this));
     }
 
-    private void notifyWin() {
+    protected void notifyWin() {
         listeners.forEach(player -> player.playerWon(this));
     }
 
-    private void notifyLose() {
+    protected void notifyLose() {
         listeners.forEach(player -> player.playerLost(this));
     }
 
@@ -129,6 +130,7 @@ public abstract class Player {
     protected PlayerState getStandingState() {
         return new Standing();
     }
+
 
     protected abstract PlayerState getInitialState();
 
@@ -268,6 +270,5 @@ public abstract class Player {
             currentState.execute(dealer);
         }
     }
-
 
 }

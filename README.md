@@ -1,6 +1,6 @@
 # BlackJack
 
-## Esta branch está direcionada para Ser o pondo de entrada para desenvilvimento, regras de negocio, modos de conexão com servidor ou p2p etc.
+## Esta branch está direcionada mudanças nas classes de apostas
 
 ## outras branchs serão abertas para evolução do projeto e serão excluídas após o merge na master.
 

@@ -52,6 +52,16 @@ public class Hand {
         }
     }
 
+    public Boolean canDoubleDown() {
+        if (!blackjack()) {
+            return this.cards.size() == 2;
+        }else {
+            return false;
+        }
+
+
+    }
+
     public void setHolder(HandListener listener) {
         this.holder = listener;
     }

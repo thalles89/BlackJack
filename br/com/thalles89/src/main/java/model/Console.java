@@ -46,10 +46,12 @@ public class Console implements PlayerListener {
     public void playerStanding(Player player) {
         printMessage(player.toString() + " STANDS");
     }
-
+    public void playerDoubling(Player player) {
+        printMessage(player.toString() + " DOUBLED AND STANDS");
+    }
     @Override
     public void playerBlackjack(Player player) {
-        printMessage(player.toString() + "BLACKJACK");
+        printMessage(player.toString() + " BLACKJACK!!!");
     }
 
     @Override

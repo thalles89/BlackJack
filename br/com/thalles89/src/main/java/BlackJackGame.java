@@ -4,7 +4,7 @@ import model.*;
  * @author Thalles
  * @version 0.0.1
  */
-public class BlackJackGame {
+public class BlackJackGame { //TODO interface gráfica
 
     public static void main(String[] args) {
 
@@ -18,21 +18,21 @@ public class BlackJackGame {
 
         Hand dealerHand = new Hand();
         BlackJackDealer dealer = new BlackJackDealer("Dealer", dealerHand, stack);
-        System.out.println(stack.getStack().size());
+
         Hand player1Hand = new Hand();
-        HumanPlayer player1 = new HumanPlayer("player1", player1Hand);
+        HumanPlayer player1 = new HumanPlayer("player1", player1Hand, new Bank(1000));
         player1.addListener(Console.INSTANCE);
         Hand player2Hand = new Hand();
-        HumanPlayer player2 = new HumanPlayer("player2", player2Hand);
+        HumanPlayer player2 = new HumanPlayer("player2", player2Hand, new Bank(1000));
         player2.addListener(Console.INSTANCE);
         Hand player3Hand = new Hand();
-        HumanPlayer player3 = new HumanPlayer("player3", player3Hand);
+        HumanPlayer player3 = new HumanPlayer("player3", player3Hand, new Bank(1000));
         player3.addListener(Console.INSTANCE);
 
         dealer.addListener(Console.INSTANCE);
         dealer.addPlayer(player1);
-        dealer.addPlayer(player2);
-        dealer.addPlayer(player3);
+//        dealer.addPlayer(player2);
+//        dealer.addPlayer(player3);
         dealer.newGame();
     }
 

@@ -6,6 +6,7 @@ import interfaces.PlayerState;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Thalles
@@ -46,6 +47,7 @@ public class BlackJackDealer extends Player implements Dealer {
         blackjackPlayers = new ArrayList<>();
         bettingPlayers = new LinkedList<>(players);
         players.forEach(Player::reset);
+
     }
 
     public void newGame() {
@@ -58,8 +60,22 @@ public class BlackJackDealer extends Player implements Dealer {
         player.addCard(deck.dealUp());
     }
 
+    /**
+     * @param dealer receives the table dealer to execute the play actions
+     * @return a boolean success operation
+     * Dealer buys if players hand is grater than dealer's
+     * or if dealer's hand is lower than 17 (soft 17 strategy)
+    * */
     protected Boolean hit(Dealer dealer) {
-        return standingPlayers.size() > 0 && getHand().total() < 17;
+        AtomicBoolean dealerMayhit = new AtomicBoolean(false);
+        standingPlayers.forEach(player -> {
+            if(player.getHand().isGreaterThan(getHand())){
+                dealerMayhit.set(true);
+            }else{
+                dealerMayhit.set(standingPlayers.size() > 0 && getHand().total() < 17);
+            }
+        });
+        return dealerMayhit.get();
     }
 
     @Override
@@ -119,6 +135,7 @@ public class BlackJackDealer extends Player implements Dealer {
     public PlayerState getDealingState() {
         return new DealerDealing();
     }
+
 
     private class DealerBusted implements PlayerState {
 
@@ -219,6 +236,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handPlayable() {
+
         }
 
         @Override
@@ -260,7 +278,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handPlayable() {
-            setCurrentState(getWaitingState());
+            setCurrentState(getWaitingState()); // goes to waiting state
         }
 
         @Override
@@ -278,10 +296,11 @@ public class BlackJackDealer extends Player implements Dealer {
         public void execute(Dealer dealer) {
             deal();
             getCurrentState().execute(dealer);
+
         }
     }
 
-    private class DealerCollectingBets implements PlayerState{
+    private class DealerCollectingBets implements PlayerState {
 
         @Override
         public void handPlayable() {
@@ -300,22 +319,25 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handChanged() {
-
+            notifyChanged();
         }
 
         @Override
         public void execute(Dealer dealer) {
 
-            if(!bettingPlayers.isEmpty()){
-                Player player = bettingPlayers.get(0);
-                bettingPlayers.remove(player);
-                player.play(dealer);
-            }else{
+            if (!bettingPlayers.isEmpty()) {
+                bettingPlayers.forEach(player -> {
+                    bettingPlayers.remove(player);
+                    player.play(dealer);
+                });
+
+            } else {
                 setCurrentState(getDealingState());
                 getCurrentState().execute(dealer);
             }
 
         }
     }
+
 
 }

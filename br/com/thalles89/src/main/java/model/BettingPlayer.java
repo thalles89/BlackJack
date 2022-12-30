@@ -3,13 +3,15 @@ package model;
 import interfaces.Dealer;
 import interfaces.PlayerState;
 
+
 public abstract class BettingPlayer extends Player {
 
     private Bank bank;
 
+
     public BettingPlayer(String name, Hand hand, Bank bank) {
         super(name, hand);
-        this.bank=bank;
+        this.bank = bank;
     }
 
     public Bank getBank() {
@@ -41,27 +43,36 @@ public abstract class BettingPlayer extends Player {
     }
 
     @Override
-    protected Boolean hit(Dealer dealer) {
-        return null;
+    protected String getName() {
+        return super.getName() +"\n" + bank.toString();
     }
+
+    @Override
+    protected abstract Boolean hit(Dealer dealer);
 
     @Override
     protected PlayerState getInitialState() {
         return getBettingState();
     }
-
-    protected PlayerState getBettingState(){
+    protected PlayerState getBettingState() {
         return new Betting();
     }
-
+    @Override
+    protected PlayerState getPlayingState() {
+        return new BetterPlaying();
+    }
+    private PlayerState getDoublingDownState() {
+        return new DoublingDown();
+    }
     protected abstract void bet();
+    protected abstract Boolean doubleDown(Dealer dealer);
 
     @Override
     public String toString() {
         return String.format("%s: %s", getName(), getHand());
     }
 
-    private class Betting implements PlayerState{
+    private class Betting implements PlayerState {
 
         @Override
         public void handPlayable() {
@@ -90,4 +101,79 @@ public abstract class BettingPlayer extends Player {
             dealer.doneBetting(BettingPlayer.this);
         }
     }
+
+    private class DoublingDown implements PlayerState{
+
+        @Override
+        public void handPlayable() {
+            setCurrentState(getStandingState());
+            notifyStandoff();
+        }
+
+        @Override
+        public void handBlackjack() {
+
+        }
+
+        @Override
+        public void handBusted() {
+            setCurrentState(getBustedState());
+            notifyBusted();
+        }
+
+        @Override
+        public void handChanged() {
+            notifyChanged();
+        }
+
+        @Override
+        public void execute(Dealer dealer) {
+            bank.doubleDown();
+            dealer.hit(BettingPlayer.this);
+            getCurrentState().execute(dealer);
+        }
+    }
+
+    private class BetterPlaying implements PlayerState{
+
+        @Override
+        public void handPlayable() {
+
+        }
+
+        @Override
+        public void handBlackjack() {
+
+        }
+
+        @Override
+        public void handBusted() {
+            notifyBusted();
+        }
+
+        @Override
+        public void handChanged() {
+            notifyChanged();
+        }
+
+        @Override
+        public void execute(Dealer dealer) {
+
+            if(getHand().canDoubleDown() && doubleDown(dealer)){
+                setCurrentState(getDoublingDownState());
+                getCurrentState().execute(dealer);
+            }
+
+            if(hit(dealer)){
+                dealer.hit(BettingPlayer.this);
+            }else{
+                setCurrentState(getStandingState());
+                notifyStanding();
+            }
+            getCurrentState().execute(dealer);
+
+        }
+    }
+
+
 }
