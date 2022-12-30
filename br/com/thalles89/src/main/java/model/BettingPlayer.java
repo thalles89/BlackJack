@@ -162,6 +162,7 @@ public abstract class BettingPlayer extends Player {
             if(getHand().canDoubleDown() && doubleDown(dealer)){
                 setCurrentState(getDoublingDownState());
                 getCurrentState().execute(dealer);
+                return;
             }
 
             if(hit(dealer)){
@@ -171,7 +172,6 @@ public abstract class BettingPlayer extends Player {
                 notifyStanding();
             }
             getCurrentState().execute(dealer);
-
         }
     }
 

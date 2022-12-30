@@ -6,6 +6,12 @@ import model.*;
  */
 public class BlackJackGame { //TODO interface gráfica
 
+    private static Boolean playAgin(){
+        Console.INSTANCE.printMessage("Would like to play?\n[Y]es / [N]o");
+        String response = Console.INSTANCE.readInput("invalid");
+        return response.equalsIgnoreCase("y");
+    }
+
     public static void main(String[] args) {
 
         DeckPile stack = new DeckPile();
@@ -30,10 +36,15 @@ public class BlackJackGame { //TODO interface gráfica
         player3.addListener(Console.INSTANCE);
 
         dealer.addListener(Console.INSTANCE);
+
         dealer.addPlayer(player1);
-//        dealer.addPlayer(player2);
-//        dealer.addPlayer(player3);
-        dealer.newGame();
+        dealer.addPlayer(player2);
+        dealer.addPlayer(player3);
+
+        do {
+            dealer.newGame();
+        }while (playAgin());
+
     }
 
 }
