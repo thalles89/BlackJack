@@ -107,7 +107,7 @@ public abstract class BettingPlayer extends Player {
         @Override
         public void handPlayable() {
             setCurrentState(getStandingState());
-            notifyStandoff();
+            notifyStanding();
         }
 
         @Override
@@ -148,6 +148,7 @@ public abstract class BettingPlayer extends Player {
 
         @Override
         public void handBusted() {
+            setCurrentState(getBustedState());
             notifyBusted();
         }
 
@@ -163,9 +164,7 @@ public abstract class BettingPlayer extends Player {
                 setCurrentState(getDoublingDownState());
                 getCurrentState().execute(dealer);
                 return;
-            }
-
-            if(hit(dealer)){
+            }else if(hit(dealer)){
                 dealer.hit(BettingPlayer.this);
             }else{
                 setCurrentState(getStandingState());

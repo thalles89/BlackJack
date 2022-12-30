@@ -41,6 +41,7 @@ public abstract class Player {
     public void reset() {
         hand.reset();
         setCurrentState(getInitialState());
+        notifyChanged();
     }
 
     public void play(Dealer dealer) {
@@ -267,7 +268,7 @@ public abstract class Player {
                 setCurrentState(getStandingState());
                 notifyStanding();
             }
-            currentState.execute(dealer);
+            getCurrentState().execute(dealer);
         }
     }
 

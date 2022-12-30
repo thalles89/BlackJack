@@ -40,14 +40,14 @@ public class BlackJackDealer extends Player implements Dealer {
 
     @Override
     public void reset() {
-
+        super.reset();
         waitingPlayers = new ArrayList<>();
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
         bettingPlayers = new LinkedList<>(players);
         players.forEach(Player::reset);
-
+        deck.reset();
     }
 
     public void newGame() {
@@ -67,15 +67,15 @@ public class BlackJackDealer extends Player implements Dealer {
      * or if dealer's hand is lower than 17 (soft 17 strategy)
      */
     protected Boolean hit(Dealer dealer) {
-        AtomicBoolean dealerMayhit = new AtomicBoolean(false);
+        AtomicBoolean dealerMayHit = new AtomicBoolean(false);
         standingPlayers.forEach(player -> {
             if (player.getHand().isGreaterThan(getHand())) {
-                dealerMayhit.set(true);
+                dealerMayHit.set(true);
             } else {
-                dealerMayhit.set(standingPlayers.size() > 0 && getHand().total() < 17);
+                dealerMayHit.set(standingPlayers.size() > 0 && getHand().total() < 17);
             }
         });
-        return dealerMayhit.get();
+        return dealerMayHit.get();
     }
 
     @Override
@@ -132,10 +132,48 @@ public class BlackJackDealer extends Player implements Dealer {
         return new DealerStanding();
     }
 
-    public PlayerState getDealingState() {
+    protected PlayerState getDealingState() {
         return new DealerDealing();
     }
 
+    private class DealerCollectingBets implements PlayerState {
+
+        @Override
+        public void handPlayable() {
+
+        }
+
+        @Override
+        public void handBlackjack() {
+
+        }
+
+        @Override
+        public void handBusted() {
+
+        }
+
+        @Override
+        public void handChanged() {
+            notifyChanged();
+        }
+
+        @Override
+        public void execute(Dealer dealer) {
+
+            if (!bettingPlayers.isEmpty()) {
+                bettingPlayers.forEach(player -> {
+                    bettingPlayers.remove(player);
+                    player.play(dealer);
+                });
+
+            } else {
+                setCurrentState(getDealingState());
+                getCurrentState().execute(dealer);
+            }
+
+        }
+    }
 
     private class DealerBusted implements PlayerState {
 
@@ -198,6 +236,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
     private class DealerStanding implements PlayerState {
 
+
         @Override
         public void handPlayable() {
         }
@@ -227,12 +266,14 @@ public class BlackJackDealer extends Player implements Dealer {
                 }
             });
 
-            blackjackPlayers.forEach(Player::win);
+            blackjackPlayers.forEach(Player::blackjack);
             bustedPlayers.forEach(Player::lose);
         }
+
     }
 
     private class DealerWaiting implements PlayerState {
+
 
         @Override
         public void handPlayable() {
@@ -255,12 +296,15 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void execute(Dealer dealer) {
-
+/**
+ * here we remove the firs element on stack before playing it state
+ * */
             if (!waitingPlayers.isEmpty()) {
 
                 Player player = waitingPlayers.get(0);
                 waitingPlayers.remove(player);
                 player.play(dealer);
+
             } else {
                 setCurrentState(getPlayingState());
                 exposeHand();
@@ -268,9 +312,11 @@ public class BlackJackDealer extends Player implements Dealer {
             }
 
         }
+
     }
 
     private class DealerDealing implements PlayerState {
+
 
         @Override
         public void handChanged() {
@@ -299,45 +345,7 @@ public class BlackJackDealer extends Player implements Dealer {
             getCurrentState().execute(dealer);
 
         }
-    }
 
-    private class DealerCollectingBets implements PlayerState {
-
-        @Override
-        public void handPlayable() {
-
-        }
-
-        @Override
-        public void handBlackjack() {
-
-        }
-
-        @Override
-        public void handBusted() {
-
-        }
-
-        @Override
-        public void handChanged() {
-            notifyChanged();
-        }
-
-        @Override
-        public void execute(Dealer dealer) {
-
-            if (!bettingPlayers.isEmpty()) {
-                bettingPlayers.forEach(player -> {
-                    bettingPlayers.remove(player);
-                    player.play(dealer);
-                });
-
-            } else {
-                setCurrentState(getDealingState());
-                getCurrentState().execute(dealer);
-            }
-
-        }
     }
 
 

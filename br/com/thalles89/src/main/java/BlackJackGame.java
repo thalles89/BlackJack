@@ -6,10 +6,18 @@ import model.*;
  */
 public class BlackJackGame { //TODO interface gráfica
 
-    private static Boolean playAgin(){
-        Console.INSTANCE.printMessage("Would like to play?\n[Y]es / [N]o");
-        String response = Console.INSTANCE.readInput("invalid");
-        return response.equalsIgnoreCase("y");
+    private static Boolean playAgain(){
+
+        while (true) {
+            Console.INSTANCE.printMessage("Would like to play?\n[Y]es / [N]o");
+            String response = Console.INSTANCE.readInput("invalid");
+            if (response.equalsIgnoreCase("y")) {
+                return true;
+            } else if (response.equalsIgnoreCase("n")) {
+                return false;
+            }
+        }
+        
     }
 
     public static void main(String[] args) {
@@ -43,7 +51,7 @@ public class BlackJackGame { //TODO interface gráfica
 
         do {
             dealer.newGame();
-        }while (playAgin());
+        }while (playAgain());
 
     }
 

@@ -18,10 +18,11 @@ public class Bank {
         placeBet(100);
     }
     public void doubleDown(){
-        placeBet(bet*=2);
+        placeBet(bet);
+        bet = bet*2;
     }
     public void placeBet(Integer amount){
-        this.bet = amount;
+        bet = amount;
         total -= amount;
     }
 
@@ -35,7 +36,7 @@ public class Bank {
     }
 
     public void blackjack(){
-        total+= (((3*bet)/2)+bet);
+        total += (((3*bet)/2)+bet);
     }
 
     public void standoff(){
@@ -45,7 +46,7 @@ public class Bank {
 
     @Override
     public String toString() {
-        return String.format("R$%s,00 total", total);
+        return String.format("R$%s,00", total);
     }
 
 }

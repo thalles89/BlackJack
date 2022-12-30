@@ -43,4 +43,8 @@ public class DeckPile {
     public List<Card> getStack() {
         return stack;
     }
+
+    public void reset() {
+        stack.forEach(card -> card.setFaceUp(false));
+    }
 }
