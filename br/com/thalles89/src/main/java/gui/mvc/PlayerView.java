@@ -1,4 +1,4 @@
-package gui;
+package gui.mvc;
 
 import interfaces.PlayerListener;
 import model.Card;
@@ -8,7 +8,6 @@ import model.Player;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.Iterator;
 import java.util.List;
 
 public class PlayerView extends JPanel implements PlayerListener {

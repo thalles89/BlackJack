@@ -1,4 +1,4 @@
-package gui;
+package gui.mvc;
 
 import model.BlackJackDealer;
 
@@ -27,7 +27,7 @@ public class OptionView extends JPanel {
     private GUIPlayer player;
     private BlackJackDealer dealer;
 
-    private static final Color FOREST_GREEN = new Color(47, 153, 36);
+    static final Color FOREST_GREEN = new Color(47, 153, 36);
 
     public OptionView(GUIPlayer player, BlackJackDealer dealer){
         super(new BorderLayout());

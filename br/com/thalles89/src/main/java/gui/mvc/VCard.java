@@ -1,4 +1,4 @@
-package gui;
+package gui.mvc;
 
 import model.Card;
 import model.Rank;

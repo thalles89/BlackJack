@@ -1,8 +1,7 @@
-package gui;
+package gui.mvc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 import java.util.Objects;
 
 public class CardView extends JLabel {

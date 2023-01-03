@@ -1,4 +1,4 @@
-package gui;
+package gui.mvc;
 
 import interfaces.PlayerListener;
 import model.BlackJackDealer;

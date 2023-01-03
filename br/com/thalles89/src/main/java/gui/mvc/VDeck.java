@@ -1,4 +1,4 @@
-package gui;
+package gui.mvc;
 
 import model.Card;
 import model.Deck;
@@ -15,11 +15,12 @@ public class VDeck extends Deck {
 
 
     public VDeck() {
-        this.deck = new LinkedList<>();
         buildCards();
     }
 
     protected void buildCards() {
+        deck = new LinkedList<>();
+
         deck.add(new VCard(Suit.CLUBS, Rank.TWO, "br/com/thalles89/src/playing_cards/2_of_clubs.png"));
         deck.add(new VCard(Suit.CLUBS, Rank.THREE, "br/com/thalles89/src/playing_cards/3_of_clubs.png"));
         deck.add(new VCard(Suit.CLUBS, Rank.FOUR, "br/com/thalles89/src/playing_cards/4_of_clubs.png"));
