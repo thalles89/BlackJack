@@ -43,7 +43,7 @@ public abstract class BettingPlayer extends Player {
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return super.getName() +"\n" + bank.toString();
     }
 
