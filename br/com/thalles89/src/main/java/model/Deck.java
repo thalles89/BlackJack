@@ -18,7 +18,7 @@ public class Deck {
         buildCards();
     }
 
-    private void buildCards() {
+    protected void buildCards() {
 
         for (int i=0; i<Suit.SUIT.length;i++){
             for (int j = 0; j < Rank.RANK.length; j++){

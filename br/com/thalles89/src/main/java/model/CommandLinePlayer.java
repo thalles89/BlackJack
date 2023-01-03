@@ -2,7 +2,7 @@ package model;
 
 import interfaces.Dealer;
 
-public class HumanPlayer extends BettingPlayer {
+public class CommandLinePlayer extends BettingPlayer {
 
     private static final String HIT = "H";
     private static final String STAND = "S";
@@ -17,7 +17,7 @@ public class HumanPlayer extends BettingPlayer {
     private static final String DEFAULT = "invalid";
 
 
-    public HumanPlayer(String name, Hand hand, Bank bank) {
+    public CommandLinePlayer(String name, Hand hand, Bank bank) {
         super(name, hand, bank);
     }
 

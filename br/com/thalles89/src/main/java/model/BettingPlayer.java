@@ -61,7 +61,7 @@ public abstract class BettingPlayer extends Player {
     protected PlayerState getPlayingState() {
         return new BetterPlaying();
     }
-    private PlayerState getDoublingDownState() {
+    protected PlayerState getDoublingDownState() {
         return new DoublingDown();
     }
     protected abstract void bet();

@@ -24,6 +24,10 @@ public class Card {
         return this;
     }
 
+    public boolean isFaceUp() {
+        return faceUp;
+    }
+
     @Override
     public String toString() {
         if(faceUp){
