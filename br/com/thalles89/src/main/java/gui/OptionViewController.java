@@ -9,46 +9,112 @@ import java.awt.event.ActionListener;
 
 public class OptionViewController implements ActionListener, PlayerListener {
 
-    public OptionViewController(GUIPlayer player, BlackJackDealer dealer, OptionView optionView) {
+    private GUIPlayer model;
+    private OptionView view;
+    private BlackJackDealer dealer;
+
+    public OptionViewController(GUIPlayer model, BlackJackDealer dealer, OptionView optionView) {
+        this.model = model;
+        this.dealer = dealer;
+        this.view = optionView;
+        this.view.enablePlayerControls(false);
+        this.model.addListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+
+        switch (event.getActionCommand()) {
+            case OptionView.QUIT -> System.exit(0);
+            case OptionView.HIT -> {
+                view.enableDoubleDown(false);
+                model.takeCard();
+            }
+            case OptionView.STAND -> {
+                view.enableDoubleDown(false);
+                model.stand();
+            }
+            case OptionView.NEW_GAME -> {
+                view.enableDoubleDown(false);
+                view.enableGameControls(false);
+                view.enablePlayerControls(false);
+                view.enableBettingControls(true);
+                dealer.newGame();
+            }
+            case OptionView.BET10 -> {
+                view.enableBettingControls(false);
+                view.enablePlayerControls(true);
+//                view.enableGameControls(false);
+                view.enableDoubleDown(true);
+                model.place10Bet();
+            }
+
+            case OptionView.BET50 -> {
+                view.enableBettingControls(false);
+                view.enablePlayerControls(true);
+//                view.enableGameControls(false);
+                view.enableDoubleDown(true);
+                model.place50Bet();
+            }
+            case OptionView.BET100 -> {
+                view.enableBettingControls(false);
+                view.enablePlayerControls(true);
+//                view.enableGameControls(false);
+                view.enableDoubleDown(true);
+                model.place100Bet();
+            }
+            case OptionView.DOUBLEDOWN -> {
+                view.enableBettingControls(false);
+                view.enablePlayerControls(false);
+                view.enableGameControls(true);
+                view.enableDoubleDown(false);
+                model.doubleDown(dealer);
+            }
+        }
+
     }
 
     @Override
     public void playerChanged(Player player) {
-
+        System.out.println("CHANGED");
     }
 
     @Override
     public void playerBusted(Player player) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
+        view.enableDoubleDown(false);
     }
 
     @Override
     public void playerStanding(Player player) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
     }
 
     @Override
     public void playerBlackjack(Player player) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
+        view.enableDoubleDown(false);
     }
 
     @Override
     public void playerWon(Player player) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
     }
 
     @Override
     public void playerLost(Player player) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
+        view.enableDoubleDown(false);
     }
 
     @Override
     public void playerStandOff(Player player) {
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+        view.enablePlayerControls(false);
+        view.enableGameControls(true);
     }
 }

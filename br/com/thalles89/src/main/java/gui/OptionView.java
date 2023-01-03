@@ -14,7 +14,7 @@ public class OptionView extends JPanel {
     public static final String BET10 = "BET10";
     public static final String BET50 = "BET50";
     public static final String BET100 = "BET100";
-    public static final String DD = "DOUBLE";
+    public static final String DOUBLEDOWN = "DOUBLE";
 
     public static final JButton bet10 = new JButton("$10");
     public static final JButton bet50 = new JButton("$50");
@@ -82,7 +82,7 @@ public class OptionView extends JPanel {
         deal.setActionCommand(NEW_GAME);
         stand.setActionCommand(STAND);
         quit.setActionCommand(QUIT);
-        doubledown.setActionCommand(DD);
+        doubledown.setActionCommand(DOUBLEDOWN);
         hit.setActionCommand(HIT);
         bet10.setActionCommand(BET10);
         bet50.setActionCommand(BET50);
