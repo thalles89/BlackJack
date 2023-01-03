@@ -19,7 +19,7 @@ public class OptionView extends JPanel {
     public static final JButton bet10 = new JButton("$10");
     public static final JButton bet50 = new JButton("$50");
     public static final JButton bet100 = new JButton("$100");
-    public static final JButton deal = new JButton(" New Game");
+    public static final JButton newGame = new JButton(" New Game");
     public static final JButton quit = new JButton("Quit");
     public static final JButton hit = new JButton("Hit");
     public static final JButton stand = new JButton("Stand");
@@ -38,7 +38,7 @@ public class OptionView extends JPanel {
     }
 
     public void attachController(OptionViewController controller){
-        deal.addActionListener(controller);
+        newGame.addActionListener(controller);
         quit.addActionListener(controller);
         hit.addActionListener(controller);
         stand.addActionListener(controller);
@@ -65,7 +65,7 @@ public class OptionView extends JPanel {
 
     public void enableGameControls(boolean enable){
         quit.setEnabled(enable);
-        deal.setEnabled(enable);
+        newGame.setEnabled(enable);
     }
 
     private OptionViewController makeController() {
@@ -79,7 +79,7 @@ public class OptionView extends JPanel {
         add(gameControls, BorderLayout.SOUTH);
         bettingControls.setBackground(FOREST_GREEN);
         gameControls.setBackground(FOREST_GREEN);
-        deal.setActionCommand(NEW_GAME);
+        newGame.setActionCommand(NEW_GAME);
         stand.setActionCommand(STAND);
         quit.setActionCommand(QUIT);
         doubledown.setActionCommand(DOUBLEDOWN);
@@ -94,8 +94,10 @@ public class OptionView extends JPanel {
         gameControls.add(hit);
         gameControls.add(stand);
         gameControls.add(quit);
+        gameControls.add(newGame);
         enableBettingControls(false);
         enableDoubleDown(false);
         enablePlayerControls(false);
+        enableGameControls(true);
     }
 }

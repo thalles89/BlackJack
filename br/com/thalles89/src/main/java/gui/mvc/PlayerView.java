@@ -45,15 +45,15 @@ public class PlayerView extends JPanel implements PlayerListener {
     }
 
     @Override
-    public void playerStanding(Player player) {
-        titledBorder.setTitle(player.getName() + " Standing!!!");
+    public void playerBlackjack(Player player) {
+        titledBorder.setTitle(player.getName() + " Blackjack!!!");
         cards.repaint();
 
     }
 
     @Override
-    public void playerBlackjack(Player player) {
-        titledBorder.setTitle(player.getName() + " Blackjack!!!");
+    public void playerStanding(Player player) {
+        titledBorder.setTitle(player.getName() + " Standing!!!");
         cards.repaint();
 
     }

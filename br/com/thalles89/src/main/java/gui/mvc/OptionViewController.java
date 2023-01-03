@@ -26,6 +26,7 @@ public class OptionViewController implements ActionListener, PlayerListener {
 
         switch (event.getActionCommand()) {
             case OptionView.QUIT -> System.exit(0);
+
             case OptionView.HIT -> {
                 view.enableDoubleDown(false);
                 model.takeCard();
@@ -44,7 +45,6 @@ public class OptionViewController implements ActionListener, PlayerListener {
             case OptionView.BET10 -> {
                 view.enableBettingControls(false);
                 view.enablePlayerControls(true);
-//                view.enableGameControls(false);
                 view.enableDoubleDown(true);
                 model.place10Bet();
             }

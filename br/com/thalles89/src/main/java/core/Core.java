@@ -1,4 +1,4 @@
-package domain;
+package core;
 /**
  * Aqui deveriam ficar as regras de negócio do cliente
  * @author Thalles

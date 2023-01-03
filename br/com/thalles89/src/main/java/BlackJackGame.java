@@ -4,7 +4,7 @@ import model.*;
  * @author Thalles
  * @version 0.0.1
  */
-public class BlackJackGame { //TODO interface gráfica
+public class BlackJackGame {
 
     private static Boolean playAgin(){
         Console.INSTANCE.printMessage("Would like to play?\n[Y]es / [N]o");

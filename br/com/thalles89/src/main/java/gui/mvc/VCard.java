@@ -18,6 +18,6 @@ public class VCard extends Card {
             return image;
         }
 
-        return "br/com/thalles89/src/playing_cards/back_pile_red.png";
+        return "playing_cards/back_pile_red.png";
     }
 }

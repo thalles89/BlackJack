@@ -17,9 +17,9 @@ public class BlackJackDealer extends Player implements Dealer {
     private final List<Player> players = new ArrayList<>();
     private List<Player> bustedPlayers;
     private List<Player> blackjackPlayers;
-    private List<Player> waitingPlayers;
+    protected List<Player> waitingPlayers;
     private List<Player> standingPlayers;
-    private List<Player> bettingPlayers;
+    protected List<Player> bettingPlayers;
 
     public BlackJackDealer(String name, Hand hand, DeckPile pile) {
         super(name, hand);
@@ -102,14 +102,14 @@ public class BlackJackDealer extends Player implements Dealer {
         play(this);
     }
 
-    private void exposeHand() {
+    protected void exposeHand() {
         getHand().turnOver();
         notifyChanged();
     }
 
     @Override
     protected PlayerState getInitialState() {
-        return new DealerCollectingBets();
+        return getCollectingBets();
     }
 
     @Override
@@ -136,6 +136,9 @@ public class BlackJackDealer extends Player implements Dealer {
         return new DealerDealing();
     }
 
+    public PlayerState getCollectingBets(){
+        return  new DealerCollectingBets();
+    }
 
     private class DealerBusted implements PlayerState {
 

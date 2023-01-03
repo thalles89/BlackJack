@@ -2,10 +2,7 @@ package gui.mvc;
 
 import interfaces.Dealer;
 import interfaces.PlayerState;
-import model.Bank;
-import model.BettingPlayer;
-import model.Hand;
-import model.Player;
+import model.*;
 
 public class GUIPlayer extends BettingPlayer {
 
@@ -21,7 +18,6 @@ public class GUIPlayer extends BettingPlayer {
     }
 
     @Override
-    @Deprecated
     protected void bet() {
 
     }
@@ -59,6 +55,7 @@ public class GUIPlayer extends BettingPlayer {
        setCurrentState(getStandingState());
        notifyStanding();
        getCurrentState().execute(dealer);
+        Console.INSTANCE.printMessage(getHand().toString());
     }
 
     @Override
@@ -110,7 +107,7 @@ public class GUIPlayer extends BettingPlayer {
         }
     }
 
-    private class Betting implements PlayerState{
+    private static class Betting implements PlayerState{
 
         @Override
         public void handPlayable() {

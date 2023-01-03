@@ -1,5 +1,6 @@
 package gui.mvc;
 
+import core.threaded.ThreadedBlackjackDealer;
 import model.*;
 
 import javax.swing.*;
@@ -16,13 +17,13 @@ public class BlackjackMVC extends JFrame {
     public static void main(String[] args) {
         JFrame frame = new BlackjackMVC();
         frame.getContentPane().setBackground(FOREST_GREEN);
-        frame.setSize(580, 480);
+        frame.setSize(640, 480);
         frame.setVisible(true);
     }
 
     private BlackJackDealer dealer;
     private GUIPlayer human;
-    private JPanel players = new JPanel(new GridBagLayout());
+    private JPanel players = new JPanel(new GridLayout(0,1));
 
 
     public BlackjackMVC(){
@@ -34,6 +35,12 @@ public class BlackjackMVC extends JFrame {
             }
         };
         addWindowListener(wa);
+    }
+
+    private PlayerView getPlayerView(Player player) {
+        PlayerView view = new PlayerView(player);
+        view.setBackground(FOREST_GREEN);
+        return view;
     }
 
     private void setUp() {
@@ -52,39 +59,32 @@ public class BlackjackMVC extends JFrame {
         addOptionView(player, dealer);
     }
 
-    private GUIPlayer getHuman() {
-        if(human == null){
-            Hand hand = new Hand();
-            Bank bank = new Bank(1000);
-            human = new GUIPlayer("dealer", hand, bank); // TODO mudar para o ThreadSafe
-        }
-        return human;
-    }
-
-    private PlayerView getPlayerView(Player player) {
-        PlayerView view = new PlayerView(player);
-        view.setBackground(FOREST_GREEN);
-        return view;
-    }
-
     private BlackJackDealer getDealer() {
         if(dealer == null){
-            Hand dealerHand = new Hand();
-            DeckPile cards = getCards();
-            dealer = new BlackJackDealer("dealer", dealerHand, cards); // TODO mudar para o ThreadSafe
+            dealer = new BlackJackDealer("dealer",
+                    new Hand(),
+                    getCards());
         }
         return dealer;
     }
 
-    private DeckPile getCards() {
-        DeckPile pile = new DeckPile();
-        for (int i=0; i<4; i++){
-            pile.shuffle();
-            Deck deck = new VDeck();
-            deck.addToStack(pile);
-            pile.shuffle();
+    private GUIPlayer getHuman() {
+        if(human == null){
+            Hand hand = new Hand();
+            human = new GUIPlayer("Player", hand, new Bank(1000));
         }
-        return pile;
+        return human;
+    }
+
+    private DeckPile getCards() {
+        DeckPile cards = new DeckPile();
+        for (int i=0; i<4; i++){
+            cards.shuffle();
+            Deck deck = new VDeck();
+            deck.addToStack(cards);
+            cards.shuffle();
+        }
+        return cards;
     }
 
     private void addPlayers(List<PlayerView> views) {
