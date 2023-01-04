@@ -63,19 +63,19 @@ public class BlackJackDealer extends Player implements Dealer {
     /**
      * @param dealer receives the table dealer to execute the play actions
      * @return a boolean success operation
-     * Dealer buys if players hand is grater than dealer's
+     * Dealer buys if player's hand is grater than dealer's
      * or if dealer's hand is lower than 17 (soft 17 strategy)
      */
     protected Boolean hit(Dealer dealer) {
-        AtomicBoolean dealerMayhit = new AtomicBoolean(false);
+        AtomicBoolean dealerMayHit = new AtomicBoolean(false);
         standingPlayers.forEach(player -> {
             if (player.getHand().isGreaterThan(getHand())) {
-                dealerMayhit.set(true);
+                dealerMayHit.set(true);
             } else {
-                dealerMayhit.set(standingPlayers.size() > 0 && getHand().total() < 17);
+                dealerMayHit.set(standingPlayers.size() > 0 && getHand().total() < 17);
             }
         });
-        return dealerMayhit.get();
+        return dealerMayHit.get();
     }
 
     @Override

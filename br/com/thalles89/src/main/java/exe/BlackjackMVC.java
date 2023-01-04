@@ -1,6 +1,10 @@
-package gui.mvc;
+package exe;
 
 import core.threaded.ThreadedBlackjackDealer;
+import gui.mvc.GUIPlayer;
+import gui.mvc.OptionView;
+import gui.mvc.PlayerView;
+import gui.mvc.VDeck;
 import model.*;
 
 import javax.swing.*;
@@ -10,9 +14,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-import static gui.mvc.OptionView.FOREST_GREEN;
-
 public class BlackjackMVC extends JFrame {
+
+    private static final Color FOREST_GREEN = new Color(35, 140, 35);
 
     public static void main(String[] args) {
         JFrame frame = new BlackjackMVC();
@@ -57,11 +61,13 @@ public class BlackjackMVC extends JFrame {
         addPlayers(views);
         dealer.addPlayer(player);
         addOptionView(player, dealer);
+
+
     }
 
     private BlackJackDealer getDealer() {
         if(dealer == null){
-            dealer = new BlackJackDealer("dealer",
+            dealer = new ThreadedBlackjackDealer("Dealer",
                     new Hand(),
                     getCards());
         }

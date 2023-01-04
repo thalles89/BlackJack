@@ -32,6 +32,7 @@ public class PlayerView extends JPanel implements PlayerListener {
         cardList.forEach(c -> {
             VCard card = (VCard) c;
             JLabel label = new CardView(card);
+            label.setSize(label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
             cards.add(label);
         });
         revalidate();
@@ -48,35 +49,30 @@ public class PlayerView extends JPanel implements PlayerListener {
     public void playerBlackjack(Player player) {
         titledBorder.setTitle(player.getName() + " Blackjack!!!");
         cards.repaint();
-
     }
 
     @Override
     public void playerStanding(Player player) {
         titledBorder.setTitle(player.getName() + " Standing!!!");
         cards.repaint();
-
     }
 
     @Override
     public void playerWon(Player player) {
         titledBorder.setTitle(player.getName() + " Won!!!");
         cards.repaint();
-
     }
 
     @Override
     public void playerLost(Player player) {
         titledBorder.setTitle(player.getName() + " Lost!!!");
         cards.repaint();
-
     }
 
     @Override
     public void playerStandOff(Player player) {
         titledBorder.setTitle(player.getName() + " StandOff!!!");
         cards.repaint();
-
     }
 
     private void buildGUI(Player player) {

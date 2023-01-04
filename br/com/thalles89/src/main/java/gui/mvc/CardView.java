@@ -1,22 +1,39 @@
 package gui.mvc;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class CardView extends JLabel {
+    private Icon icon;
+    public CardView(VCard card) {
 
-    private ImageIcon icon;
+        try {
+            File file = new File(card.getImage());
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Image resultingImage = bufferedImage.getScaledInstance(
+                    (bufferedImage.getWidth() / 3),
+                    (bufferedImage.getHeight() / 3),
+                    Image.SCALE_SMOOTH);
+            icon = new ImageIcon(resultingImage);
+            setIcon(icon);
 
-    public CardView(VCard card){
-        getImage(card.getImage());
-        setIcon(icon);
-        setBackground(Color.WHITE);
-        setOpaque(true);
+            setBackground(Color.WHITE);
+            setOpaque(true);
+
+            setIcon(new ImageIcon(String.valueOf(file)));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    private void getImage(String name){
-        icon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource(name)));
+    @Override
+    public Icon getIcon() {
+        return icon;
     }
-
 }

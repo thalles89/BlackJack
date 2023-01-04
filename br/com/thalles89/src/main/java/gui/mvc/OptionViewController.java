@@ -40,6 +40,7 @@ public class OptionViewController implements ActionListener, PlayerListener {
                 view.enableGameControls(false);
                 view.enablePlayerControls(false);
                 view.enableBettingControls(true);
+
                 dealer.newGame();
             }
             case OptionView.BET10 -> {
@@ -76,7 +77,7 @@ public class OptionViewController implements ActionListener, PlayerListener {
 
     @Override
     public void playerChanged(Player player) {
-        System.out.println("CHANGED");
+
     }
 
     @Override
@@ -103,6 +104,7 @@ public class OptionViewController implements ActionListener, PlayerListener {
     public void playerWon(Player player) {
         view.enablePlayerControls(false);
         view.enableGameControls(true);
+//        view.revalidate();
     }
 
     @Override
