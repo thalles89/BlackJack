@@ -19,7 +19,7 @@ public class OptionView extends JPanel {
     public static final JButton bet10 = new JButton("$10");
     public static final JButton bet50 = new JButton("$50");
     public static final JButton bet100 = new JButton("$100");
-    public static final JButton newGame = new JButton(" New Game");
+    public static final JButton newGame = new JButton("New Game");
     public static final JButton quit = new JButton("Quit");
     public static final JButton hit = new JButton("Hit");
     public static final JButton stand = new JButton("Stand");
@@ -27,7 +27,7 @@ public class OptionView extends JPanel {
     private GUIPlayer player;
     private BlackJackDealer dealer;
 
-    static final Color FOREST_GREEN = new Color(47, 153, 36);
+    static final Color FOREST_GREEN = new Color(35, 142, 35);
 
     public OptionView(GUIPlayer player, BlackJackDealer dealer){
         super(new BorderLayout());

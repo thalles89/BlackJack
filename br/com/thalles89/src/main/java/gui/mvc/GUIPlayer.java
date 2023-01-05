@@ -55,15 +55,13 @@ public class GUIPlayer extends BettingPlayer {
        setCurrentState(getStandingState());
        notifyStanding();
        getCurrentState().execute(dealer);
-        Console.INSTANCE.printMessage(getHand().toString());
     }
 
     @Override
     public void play(Dealer dealer) {
         this.dealer = dealer;
-        super.play(dealer);
+        super.play(this.dealer);
     }
-
 
     @Override
     protected PlayerState getPlayingState() {

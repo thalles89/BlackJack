@@ -48,6 +48,8 @@ public class BlackJackDealer extends Player implements Dealer {
         bettingPlayers = new LinkedList<>(players);
         players.forEach(Player::reset);
 
+        deck.reset();
+
     }
 
     public void newGame() {

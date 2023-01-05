@@ -19,9 +19,8 @@ public class Card {
         return rank;
     }
 
-    public Card setFaceUp(Boolean faceUp) {
+    public void setFaceUp(Boolean faceUp) {
         this.faceUp = faceUp;
-        return this;
     }
 
     public boolean isFaceUp() {

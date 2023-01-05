@@ -13,7 +13,7 @@ import java.util.List;
 public class PlayerView extends JPanel implements PlayerListener {
 
     private JPanel cards = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private TitledBorder titledBorder;
+    private TitledBorder border;
 
     public PlayerView(Player player) {
         super(new BorderLayout());
@@ -23,8 +23,9 @@ public class PlayerView extends JPanel implements PlayerListener {
 
     @Override
     public void playerChanged(Player player) {
-        titledBorder.setTitle(getName());
+        border.setTitle(getName());
         cards.removeAll();
+
         Hand hand = player.getHand();
 
         List<Card> cardList = hand.getCards();
@@ -41,45 +42,46 @@ public class PlayerView extends JPanel implements PlayerListener {
 
     @Override
     public void playerBusted(Player player) {
-        titledBorder.setTitle(player.getName() + " Busted!!!");
+        border.setTitle(player.getName() + " Busted!!!");
         cards.repaint();
     }
 
     @Override
     public void playerBlackjack(Player player) {
-        titledBorder.setTitle(player.getName() + " Blackjack!!!");
+        border.setTitle(player.getName() + " Blackjack!!!");
         cards.repaint();
     }
 
     @Override
     public void playerStanding(Player player) {
-        titledBorder.setTitle(player.getName() + " Standing!!!");
+        border.setTitle(player.getName() + " Standing!!!");
         cards.repaint();
     }
 
     @Override
     public void playerWon(Player player) {
-        titledBorder.setTitle(player.getName() + " Won!!!");
+        border.setTitle(player.getName() + " Won!!!");
         cards.repaint();
     }
 
     @Override
     public void playerLost(Player player) {
-        titledBorder.setTitle(player.getName() + " Lost!!!");
+        border.setTitle(player.getName() + " Lost!!!");
         cards.repaint();
     }
 
     @Override
     public void playerStandOff(Player player) {
-        titledBorder.setTitle(player.getName() + " StandOff!!!");
+        border.setTitle(player.getName() + " StandOff!!!");
         cards.repaint();
     }
 
     private void buildGUI(Player player) {
-        add(cards);
-        titledBorder = new TitledBorder(player.getName());
-        cards.setBorder(titledBorder);
+        cards.removeAll();
+        add(cards, BorderLayout.NORTH);
+        border = new TitledBorder(player.getName());
+        cards.setBorder(border);
         cards.setBackground(new Color(35, 142, 35));
-        titledBorder.setTitleColor(Color.BLACK);
+        border.setTitleColor(Color.BLACK);
     }
 }

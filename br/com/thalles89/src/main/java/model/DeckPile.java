@@ -19,7 +19,8 @@ public class DeckPile {
     public Card dealUp(){
         Card card = deal();
         assert card != null;
-        return card.setFaceUp(true);
+        card.setFaceUp(true);
+        return card;
     }
 
     private Card deal() {
@@ -36,11 +37,18 @@ public class DeckPile {
     public Card dealDown(){
         Card card = deal();
         assert card != null;
-        return card.setFaceUp(false);
+        card.setFaceUp(false);
+        return card;
     }
 
 
     public List<Card> getStack() {
         return stack;
+    }
+
+    public void reset() {
+        stack.forEach(card -> {
+            card.setFaceUp(false);
+        });
     }
 }

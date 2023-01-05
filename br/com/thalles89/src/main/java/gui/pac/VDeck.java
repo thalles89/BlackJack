@@ -1,4 +1,4 @@
-package gui.mvc;
+package gui.pac;
 
 import model.Card;
 import model.Deck;

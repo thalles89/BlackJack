@@ -21,8 +21,8 @@ public class CardView extends JLabel {
             icon = new ImageIcon(resultingImage);
             setIcon(icon);
 
-            setBackground(Color.WHITE);
-            setOpaque(true);
+//            setBackground(Color.WHITE);
+            setOpaque(false);
 
             setIcon(new ImageIcon(String.valueOf(file)));
 

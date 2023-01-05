@@ -1,4 +1,4 @@
-package core.threaded;
+package threaded;
 
 import interfaces.Dealer;
 import interfaces.PlayerState;

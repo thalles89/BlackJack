@@ -1,6 +1,6 @@
 package exe;
 
-import core.threaded.ThreadedBlackjackDealer;
+import threaded.ThreadedBlackjackDealer;
 import gui.mvc.GUIPlayer;
 import gui.mvc.OptionView;
 import gui.mvc.PlayerView;
@@ -21,16 +21,17 @@ public class BlackjackMVC extends JFrame {
     public static void main(String[] args) {
         JFrame frame = new BlackjackMVC();
         frame.getContentPane().setBackground(FOREST_GREEN);
-        frame.setSize(640, 480);
+        frame.setSize(1024, 768);
         frame.setVisible(true);
+        frame.setTitle("BlackJack");
     }
 
     private BlackJackDealer dealer;
     private GUIPlayer human;
-    private JPanel players = new JPanel(new GridLayout(0,1));
+    private JPanel players = new JPanel(new GridLayout(0, 1));
 
 
-    public BlackjackMVC(){
+    public BlackjackMVC() {
         setUp();
         WindowAdapter wa = new WindowAdapter() {
             @Override
@@ -55,18 +56,15 @@ public class BlackjackMVC extends JFrame {
         GUIPlayer player = getHuman();
         PlayerView v2 = getPlayerView(player);
 
-
-        List<PlayerView> views = List.of(v1,v2);
+        List<PlayerView> views = List.of(v1, v2);
 
         addPlayers(views);
         dealer.addPlayer(player);
         addOptionView(player, dealer);
-
-
     }
 
     private BlackJackDealer getDealer() {
-        if(dealer == null){
+        if (dealer == null) {
             dealer = new ThreadedBlackjackDealer("Dealer",
                     new Hand(),
                     getCards());
@@ -75,7 +73,7 @@ public class BlackjackMVC extends JFrame {
     }
 
     private GUIPlayer getHuman() {
-        if(human == null){
+        if (human == null) {
             Hand hand = new Hand();
             human = new GUIPlayer("Player", hand, new Bank(1000));
         }
@@ -84,7 +82,7 @@ public class BlackjackMVC extends JFrame {
 
     private DeckPile getCards() {
         DeckPile cards = new DeckPile();
-        for (int i=0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             cards.shuffle();
             Deck deck = new VDeck();
             deck.addToStack(cards);
