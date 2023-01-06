@@ -58,8 +58,10 @@ public class Hand {
         }else {
             return false;
         }
+    }
 
-
+    public List<Card> getCards() {
+        return cards;
     }
 
     public void setHolder(HandListener listener) {

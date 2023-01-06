@@ -11,14 +11,15 @@ import java.util.List;
  * */
 public class Deck {
 
-    private final List<Card> deck;
+    private List<Card> deck;
 
     public Deck() {
-        this.deck = new LinkedList<>();
         buildCards();
     }
 
-    private void buildCards() {
+    protected void buildCards() {
+
+        this.deck = new LinkedList<>();
 
         for (int i=0; i<Suit.SUIT.length;i++){
             for (int j = 0; j < Rank.RANK.length; j++){
@@ -40,5 +41,8 @@ public class Deck {
         stack.addCards(deck);
     }
 
+    protected void setDeck(List<Card> deck){
+        this.deck = deck;
+    }
 
 }

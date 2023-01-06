@@ -26,11 +26,11 @@ public abstract class Player {
         setCurrentState(getInitialState());
     }
 
-    protected String getName() {
+    public String getName() {
         return this.name;
     }
 
-    protected Hand getHand() {
+    public Hand getHand() {
         return hand;
     }
 

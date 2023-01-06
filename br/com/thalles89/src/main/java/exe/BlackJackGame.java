@@ -1,10 +1,12 @@
+package exe;
+
 import model.*;
 
 /**
  * @author Thalles
  * @version 0.0.1
  */
-public class BlackJackGame { //TODO interface gráfica
+public class BlackJackGame {
 
     private static Boolean playAgain(){
 
@@ -34,13 +36,13 @@ public class BlackJackGame { //TODO interface gráfica
         BlackJackDealer dealer = new BlackJackDealer("Dealer", dealerHand, stack);
 
         Hand player1Hand = new Hand();
-        HumanPlayer player1 = new HumanPlayer("player1", player1Hand, new Bank(1000));
+        CommandLinePlayer player1 = new CommandLinePlayer("player1", player1Hand, new Bank(1000));
         player1.addListener(Console.INSTANCE);
         Hand player2Hand = new Hand();
-        HumanPlayer player2 = new HumanPlayer("player2", player2Hand, new Bank(1000));
+        CommandLinePlayer player2 = new CommandLinePlayer("player2", player2Hand, new Bank(1000));
         player2.addListener(Console.INSTANCE);
         Hand player3Hand = new Hand();
-        HumanPlayer player3 = new HumanPlayer("player3", player3Hand, new Bank(1000));
+        CommandLinePlayer player3 = new CommandLinePlayer("player3", player3Hand, new Bank(1000));
         player3.addListener(Console.INSTANCE);
 
         dealer.addListener(Console.INSTANCE);
