@@ -49,7 +49,6 @@ public class BlackjackMVC extends JFrame {
     }
 
     private void setUp() {
-
         BlackJackDealer dealer = getDealer();
         PlayerView v1 = getPlayerView(dealer);
 
@@ -93,8 +92,8 @@ public class BlackjackMVC extends JFrame {
 
     private void addPlayers(List<PlayerView> views) {
         players.setBackground(FOREST_GREEN);
-        views.forEach(p -> players.add(p));
-        getContentPane().add(players, BorderLayout.CENTER);
+        views.forEach(p -> players.add(p) );
+        getContentPane().add(players, BorderLayout.NORTH);
     }
 
     private void addOptionView(GUIPlayer player, BlackJackDealer dealer) {
@@ -102,6 +101,5 @@ public class BlackjackMVC extends JFrame {
         optionView.setBackground(FOREST_GREEN);
         getContentPane().add(optionView, BorderLayout.SOUTH);
     }
-
 
 }

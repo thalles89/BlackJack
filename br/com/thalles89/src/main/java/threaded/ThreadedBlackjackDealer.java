@@ -13,6 +13,10 @@ public class ThreadedBlackjackDealer extends BlackJackDealer {
         super(name, hand, pile);
     }
 
+    @Override
+    public void newGame() {
+        super.newGame();
+    }
 
     @Override
     public PlayerState getCollectingBets() {

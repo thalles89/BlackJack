@@ -23,19 +23,20 @@ public class GUIPlayer extends BettingPlayer {
     }
 
     public void place10Bet() {
-        getBank().placeBet(10);
+        getBank().place10Bet();
         setCurrentState(getWaitingState());
         dealer.doneBetting(this);
+
     }
 
     public void place50Bet() {
-        getBank().placeBet(50);
+        getBank().place50Bet();
         setCurrentState(getWaitingState());
         dealer.doneBetting(this);
     }
 
     public void place100Bet() {
-        getBank().placeBet(100);
+        getBank().place100Bet();
         setCurrentState(getWaitingState());
         dealer.doneBetting(this);
     }

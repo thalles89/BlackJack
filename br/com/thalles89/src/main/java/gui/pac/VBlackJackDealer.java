@@ -25,14 +25,6 @@ private DealerView view;
     }
 
     @Override
-    public void newGame() {
-        reset();
-        play(this);
-    }
-
-
-
-    @Override
     public JComponent view() {
         if (view == null) {
             view = new DealerView((VHand) getHand());

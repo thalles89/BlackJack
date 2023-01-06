@@ -1,11 +1,12 @@
 package gui.pac;
 
+import interfaces.Dealer;
 import model.Bank;
 import model.Deck;
 import model.DeckPile;
 
 public class VPlayerFactory {
-    private VBlackJackDealer dealer;
+    private Dealer dealer;
     private GUIPlayer human;
     private DeckPile pile;
 
@@ -15,7 +16,7 @@ public class VPlayerFactory {
             DeckPile cards = getCards();
             dealer = new VBlackJackDealer("Dealer", hand, cards);
         }
-        return dealer;
+        return (VBlackJackDealer) dealer;
     }
 
 

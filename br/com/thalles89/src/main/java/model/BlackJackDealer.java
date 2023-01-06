@@ -41,14 +41,15 @@ public class BlackJackDealer extends Player implements Dealer {
     @Override
     public void reset() {
 
+        super.reset();
+
         waitingPlayers = new ArrayList<>();
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
         bettingPlayers = new LinkedList<>(players);
-        players.forEach(Player::reset);
-
         deck.reset();
+        players.forEach(Player::reset);
 
     }
 

@@ -9,16 +9,16 @@ import java.awt.event.ActionListener;
 
 public class OptionViewController implements ActionListener, PlayerListener {
 
-    private final GUIPlayer model;
-    private final OptionView view;
-    private final BlackJackDealer dealer;
+    private GUIPlayer model;
+    private OptionView view;
+    private BlackJackDealer dealer;
 
-    public OptionViewController(GUIPlayer model, BlackJackDealer dealer, OptionView optionView) {
+    public OptionViewController(GUIPlayer model, BlackJackDealer dealer, OptionView view) {
         this.model = model;
-        this.dealer = dealer;
-        this.view = optionView;
-        this.view.enablePlayerControls(false);
         this.model.addListener(this);
+        this.dealer = dealer;
+        this.view = view;
+        this.view.enablePlayerControls(false);
     }
 
     @Override
@@ -40,6 +40,7 @@ public class OptionViewController implements ActionListener, PlayerListener {
                 view.enableGameControls(false);
                 view.enablePlayerControls(false);
                 view.enableBettingControls(true);
+
                 dealer.newGame();
             }
             case OptionView.BET10 -> {

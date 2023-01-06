@@ -1,6 +1,8 @@
 package gui.mvc;
 
+import interfaces.Dealer;
 import model.BlackJackDealer;
+import model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,17 +25,13 @@ public class OptionView extends JPanel {
     public static final JButton quit = new JButton("Quit");
     public static final JButton hit = new JButton("Hit");
     public static final JButton stand = new JButton("Stand");
-    public static final JButton doubledown = new JButton("Double Down");
-    private GUIPlayer player;
-    private BlackJackDealer dealer;
+    public static final JButton doubleDown = new JButton("Double Down");
 
     static final Color FOREST_GREEN = new Color(35, 142, 35);
 
     public OptionView(GUIPlayer player, BlackJackDealer dealer){
         super(new BorderLayout());
-        this.player = player;
-        this.dealer = dealer;
-        attachController(makeController());
+        attachController(makeController(player, dealer));
         buildGui();
     }
 
@@ -42,14 +40,14 @@ public class OptionView extends JPanel {
         quit.addActionListener(controller);
         hit.addActionListener(controller);
         stand.addActionListener(controller);
-        doubledown.addActionListener(controller);
+        doubleDown.addActionListener(controller);
         bet10.addActionListener(controller);
         bet50.addActionListener(controller);
         bet100.addActionListener(controller);
     }
 
     public void enableDoubleDown(boolean enable){
-        doubledown.setEnabled(enable);
+        doubleDown.setEnabled(enable);
     }
 
     public void enableBettingControls(boolean enable){
@@ -68,7 +66,7 @@ public class OptionView extends JPanel {
         newGame.setEnabled(enable);
     }
 
-    private OptionViewController makeController() {
+    private OptionViewController makeController(GUIPlayer player, BlackJackDealer dealer) {
         return new OptionViewController(player, dealer, this);
     }
 
@@ -82,7 +80,7 @@ public class OptionView extends JPanel {
         newGame.setActionCommand(NEW_GAME);
         stand.setActionCommand(STAND);
         quit.setActionCommand(QUIT);
-        doubledown.setActionCommand(DOUBLEDOWN);
+        doubleDown.setActionCommand(DOUBLEDOWN);
         hit.setActionCommand(HIT);
         bet10.setActionCommand(BET10);
         bet50.setActionCommand(BET50);
@@ -90,7 +88,7 @@ public class OptionView extends JPanel {
         bettingControls.add(bet10);
         bettingControls.add(bet50);
         bettingControls.add(bet100);
-        gameControls.add(doubledown);
+        gameControls.add(doubleDown);
         gameControls.add(hit);
         gameControls.add(stand);
         gameControls.add(quit);

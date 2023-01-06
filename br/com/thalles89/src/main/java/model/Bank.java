@@ -26,7 +26,7 @@ public class Bank {
     }
 
     public void win(){
-        total+=(2*bet);
+        total=total+(2*bet);
         bet=0;
     }
 

@@ -6,7 +6,7 @@ import model.Suit;
 
 public class VCard extends Card {
 
-    private String image;
+    private final String image;
 
     public VCard(Suit suit, Rank rank, String image){
         super(suit, rank);
