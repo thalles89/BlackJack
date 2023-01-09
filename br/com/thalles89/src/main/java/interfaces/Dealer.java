@@ -1,6 +1,7 @@
 package interfaces;
 
 import model.BettingPlayer;
+import model.Card;
 import model.Player;
 
 public interface Dealer {
@@ -10,4 +11,5 @@ public interface Dealer {
     void blackjack(Player player);
     void busted(Player player);
     void doneBetting(BettingPlayer bettingPlayer);
+    Card getUpCard();
 }

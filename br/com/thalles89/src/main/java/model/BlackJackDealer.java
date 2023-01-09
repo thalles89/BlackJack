@@ -47,7 +47,7 @@ public class BlackJackDealer extends Player implements Dealer {
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
         blackjackPlayers = new ArrayList<>();
-        bettingPlayers = new LinkedList<>(players);
+        bettingPlayers = new ArrayList<>(players);
         deck.reset();
         players.forEach(Player::reset);
 
@@ -143,6 +143,13 @@ public class BlackJackDealer extends Player implements Dealer {
         return  new DealerCollectingBets();
     }
 
+
+    public Card getUpCard(){
+        for (Card c : getHand().getCards()) {
+            return c;
+        }
+        return null;
+    }
     private class DealerBusted implements PlayerState {
 
         @Override
@@ -345,6 +352,5 @@ public class BlackJackDealer extends Player implements Dealer {
 
         }
     }
-
 
 }

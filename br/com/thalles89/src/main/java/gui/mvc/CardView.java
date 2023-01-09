@@ -15,8 +15,8 @@ public class CardView extends JLabel {
             File file = new File(card.getImage());
             BufferedImage bufferedImage = ImageIO.read(file);
             Image resultingImage = bufferedImage.getScaledInstance(
-                    (bufferedImage.getWidth() / 3),
-                    (bufferedImage.getHeight() / 3),
+                    (bufferedImage.getWidth() / 4),
+                    (bufferedImage.getHeight() / 4),
                     Image.SCALE_SMOOTH);
             icon = new ImageIcon(resultingImage);
             setIcon(icon);

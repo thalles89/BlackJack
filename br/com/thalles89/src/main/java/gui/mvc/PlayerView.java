@@ -24,6 +24,7 @@ public class PlayerView extends JPanel implements PlayerListener {
     @Override
     public void playerChanged(Player player) {
         border.setTitle(player.getName());
+        border.setTitleColor(Color.WHITE);
         cards.removeAll();
 
         Hand hand = player.getHand();
@@ -35,7 +36,7 @@ public class PlayerView extends JPanel implements PlayerListener {
             JLabel label = new CardView(card);
             cards.add(label);
         });
-        System.out.println(player.getHand());
+//        System.out.println(player.getHand()); //TODO
         revalidate();
         repaint();
     }

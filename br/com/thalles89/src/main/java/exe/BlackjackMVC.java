@@ -12,7 +12,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.Socket;
 import java.util.List;
+import java.util.Objects;
 
 public class BlackjackMVC extends JFrame {
 
@@ -28,6 +30,10 @@ public class BlackjackMVC extends JFrame {
 
     private BlackJackDealer dealer;
     private GUIPlayer human;
+    OptimalPlayer optimal;
+    SafePlayer safe;
+    FlipPlayer flip;
+    SmartPlayer smartPlayer;
     private JPanel players = new JPanel(new GridLayout(0, 1));
 
 
@@ -49,17 +55,28 @@ public class BlackjackMVC extends JFrame {
     }
 
     private void setUp() {
+
         BlackJackDealer dealer = getDealer();
         PlayerView v1 = getPlayerView(dealer);
 
-        GUIPlayer player = getHuman();
-        PlayerView v2 = getPlayerView(player);
+        GUIPlayer player1 = getHuman();
+        PlayerView v2 = getPlayerView(player1);
 
-        List<PlayerView> views = List.of(v1, v2);
+        SafePlayer player2 = getSafelPlayer();
+        PlayerView v3 = getPlayerView(player2);
+
+        OptimalPlayer player3 = getOptimalPlayer();
+        PlayerView v4 = getPlayerView(player3);
+
+        dealer.addPlayer(player1);
+        dealer.addPlayer(player2);
+        dealer.addPlayer(player3);
+
+        List<PlayerView> views = List.of(v1, v2, v3, v4);
 
         addPlayers(views);
-        dealer.addPlayer(player);
-        addOptionView(player, dealer);
+
+        addOptionView(player1, dealer);
     }
 
     private BlackJackDealer getDealer() {
@@ -73,10 +90,45 @@ public class BlackjackMVC extends JFrame {
 
     private GUIPlayer getHuman() {
         if (human == null) {
-            Hand hand = new Hand();
-            human = new GUIPlayer("Player", hand, new Bank(1000));
+            while(true){
+                String input = JOptionPane.showInputDialog(
+                        null,
+                        "Como quer ser chamado",
+                        "Qual é seu nome?",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                if (Objects.nonNull(input) && !input.equals("")) {
+                    Hand hand = new Hand();
+                    human = new GUIPlayer(input, hand, new Bank(1000));
+                }return human;
+            }
+
         }
-        return human;
+        return null;
+    }
+
+    private OptimalPlayer getOptimalPlayer() {
+        if (optimal == null) {
+            Hand hand = new Hand();
+            optimal = new OptimalPlayer("Frank", hand, new Bank(1000));
+        }
+        return optimal;
+    }
+
+    private SafePlayer getSafelPlayer() {
+        if (safe == null) {
+            Hand hand = new Hand();
+            safe = new SafePlayer("Jhon", hand, new Bank(1000));
+        }
+        return safe;
+    }
+
+    private FlipPlayer getFlipPlayer() {
+        if (flip == null) {
+            Hand hand = new Hand();
+            flip = new FlipPlayer("Mark", hand, new Bank(1000));
+        }
+        return flip;
     }
 
     private DeckPile getCards() {
@@ -92,7 +144,7 @@ public class BlackjackMVC extends JFrame {
 
     private void addPlayers(List<PlayerView> views) {
         players.setBackground(FOREST_GREEN);
-        views.forEach(p -> players.add(p) );
+        views.forEach(p -> players.add(p));
         getContentPane().add(players, BorderLayout.NORTH);
     }
 
