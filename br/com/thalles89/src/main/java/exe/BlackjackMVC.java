@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.Socket;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,26 +61,27 @@ public class BlackjackMVC extends JFrame {
         GUIPlayer player1 = getHuman();
         PlayerView v2 = getPlayerView(player1);
 
-        SafePlayer player2 = getSafelPlayer();
+        SafePlayer player2 = getSafePlayer();
         PlayerView v3 = getPlayerView(player2);
 
         OptimalPlayer player3 = getOptimalPlayer();
         PlayerView v4 = getPlayerView(player3);
 
         dealer.addPlayer(player1);
-        dealer.addPlayer(player2);
-        dealer.addPlayer(player3);
+//        dealer.addPlayer(player2);
+//        dealer.addPlayer(player3);
 
-        List<PlayerView> views = List.of(v1, v2, v3, v4);
+        List<PlayerView> views = List.of(v1, v2);
+//        List<PlayerView> views = List.of(v1, v2, v3, v4);
 
         addPlayers(views);
 
         addOptionView(player1, dealer);
     }
 
-    private BlackJackDealer getDealer() {
+    private BlackJackDealer getDealer() { // TODO REFATORAR DEALER MULTITRHEAD
         if (dealer == null) {
-            dealer = new ThreadedBlackjackDealer("Dealer",
+            dealer = new BlackJackDealer("Dealer",
                     new Hand(),
                     getCards());
         }
@@ -90,21 +90,25 @@ public class BlackjackMVC extends JFrame {
 
     private GUIPlayer getHuman() {
         if (human == null) {
-            while(true){
-                String input = JOptionPane.showInputDialog(
-                        null,
-                        "Como quer ser chamado",
-                        "Qual é seu nome?",
-                        JOptionPane.INFORMATION_MESSAGE);
 
-                if (Objects.nonNull(input) && !input.equals("")) {
-                    Hand hand = new Hand();
-                    human = new GUIPlayer(input, hand, new Bank(1000));
-                }return human;
+            String input = popupMessage();
+
+            if (Objects.nonNull(input) && !input.equals("")) {
+                Hand hand = new Hand();
+                human = new GUIPlayer(input, hand, new Bank(1000));
             }
+            return human;
 
         }
         return null;
+    }
+
+    private String popupMessage() {
+        return JOptionPane.showInputDialog(
+                null,
+                "Como quer ser chamado",
+                "Qual é seu nome?",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private OptimalPlayer getOptimalPlayer() {
@@ -115,7 +119,7 @@ public class BlackjackMVC extends JFrame {
         return optimal;
     }
 
-    private SafePlayer getSafelPlayer() {
+    private SafePlayer getSafePlayer() {
         if (safe == null) {
             Hand hand = new Hand();
             safe = new SafePlayer("Jhon", hand, new Bank(1000));

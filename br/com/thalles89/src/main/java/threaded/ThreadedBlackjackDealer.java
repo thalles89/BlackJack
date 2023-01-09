@@ -7,9 +7,6 @@ import model.DeckPile;
 import model.Hand;
 import model.Player;
 
-import java.util.Collections;
-import java.util.Optional;
-
 public class ThreadedBlackjackDealer extends BlackJackDealer {
 
     public ThreadedBlackjackDealer(String name, Hand hand, DeckPile pile) {
@@ -53,13 +50,12 @@ public class ThreadedBlackjackDealer extends BlackJackDealer {
 
             if (!bettingPlayers.isEmpty()) {
 
-                for (Player player: bettingPlayers) {
-                    bettingPlayers.remove(player);
-                    Runnable runnable = () -> player.play(dealer);
-                    runnable.run();
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                }
+                Player p = bettingPlayers.get(0);
+                Runnable runnable = () -> p.play(dealer);
+                runnable.run();
+                Thread thread = new Thread(runnable);
+                thread.start();
+
 
             } else {
                 setCurrentState(getDealingState());
@@ -93,37 +89,21 @@ public class ThreadedBlackjackDealer extends BlackJackDealer {
         @Override
         public void execute(Dealer dealer) {
 
-            while(!waitingPlayers.isEmpty()){
-                Player player = waitingPlayers.stream().findFirst().get();
+            if (!waitingPlayers.isEmpty()) {
+
+                Player player = waitingPlayers.get(0);
                 waitingPlayers.remove(player);
 
                 Runnable runnable = () -> player.play(dealer);
                 runnable.run();
                 Thread thread = new Thread(runnable);
                 thread.start();
-            }
-            setCurrentState(getPlayingState());
-            exposeHand();
-            getCurrentState().execute(dealer);
 
-//            if (!waitingPlayers.isEmpty()) {
-//
-//                for (Player player: waitingPlayers) {
-//                    player = waitingPlayers.stream().findFirst().get();
-//                    waitingPlayers.remove(player);
-//
-//                    Player finalPlayer = player;
-//                    Runnable runnable = () -> finalPlayer.play(dealer);
-//                    runnable.run();
-//                    Thread thread = new Thread(runnable);
-//                    thread.start();
-//                }
-//
-//            } else {
-//                setCurrentState(getPlayingState());
-//                exposeHand();
-//                getCurrentState().execute(dealer);
-//            }
+            } else {
+                setCurrentState(getPlayingState());
+                exposeHand();
+                getCurrentState().execute(dealer);
+            }
 
         }
     }

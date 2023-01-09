@@ -26,7 +26,6 @@ public class GUIPlayer extends BettingPlayer {
         getBank().place10Bet();
         setCurrentState(getWaitingState());
         dealer.doneBetting(this);
-
     }
 
     public void place50Bet() {
@@ -61,7 +60,7 @@ public class GUIPlayer extends BettingPlayer {
     @Override
     public void play(Dealer dealer) {
         this.dealer = dealer;
-        super.play(this.dealer);
+        super.play(dealer);
     }
 
     @Override

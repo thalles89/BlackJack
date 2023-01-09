@@ -143,7 +143,6 @@ public class BlackJackDealer extends Player implements Dealer {
         return  new DealerCollectingBets();
     }
 
-
     public Card getUpCard(){
         for (Card c : getHand().getCards()) {
             return c;
@@ -270,7 +269,6 @@ public class BlackJackDealer extends Player implements Dealer {
         public void execute(Dealer dealer) {
 
             if (!waitingPlayers.isEmpty()) {
-
                 Player player = waitingPlayers.get(0);
                 waitingPlayers.remove(player);
                 player.play(dealer);
@@ -333,18 +331,16 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handChanged() {
-            notifyChanged();
+
         }
 
         @Override
         public void execute(Dealer dealer) {
 
             if (!bettingPlayers.isEmpty()) {
-                bettingPlayers.forEach(player -> {
-                    bettingPlayers.remove(player);
-                    player.play(dealer);
-                });
-
+                Player player = bettingPlayers.get(0);
+                bettingPlayers.remove(player);
+                player.play(dealer);
             } else {
                 setCurrentState(getDealingState());
                 getCurrentState().execute(dealer);

@@ -6,8 +6,7 @@ import interfaces.PlayerState;
 
 public abstract class BettingPlayer extends Player {
 
-    private Bank bank;
-
+    private final Bank bank;
 
     public BettingPlayer(String name, Hand hand, Bank bank) {
         super(name, hand);
@@ -44,7 +43,7 @@ public abstract class BettingPlayer extends Player {
 
     @Override
     public String getName() {
-        return super.getName() +"\n" + bank.toString();
+        return super.getName() +": " + bank.toString();
     }
 
     @Override
@@ -112,7 +111,8 @@ public abstract class BettingPlayer extends Player {
 
         @Override
         public void handBlackjack() {
-
+            setCurrentState(getBlackjackState());
+            notifyBlackJack();
         }
 
         @Override

@@ -5,7 +5,8 @@ import model.Card;
 import model.Hand;
 import model.Player;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
@@ -23,7 +24,6 @@ public class PlayerView extends JPanel implements PlayerListener {
 
     @Override
     public void playerChanged(Player player) {
-        border.setTitle(player.getName());
         border.setTitleColor(Color.WHITE);
         cards.removeAll();
 
@@ -36,7 +36,6 @@ public class PlayerView extends JPanel implements PlayerListener {
             JLabel label = new CardView(card);
             cards.add(label);
         });
-//        System.out.println(player.getHand()); //TODO
         revalidate();
         repaint();
     }
@@ -68,6 +67,7 @@ public class PlayerView extends JPanel implements PlayerListener {
     @Override
     public void playerWon(Player player) {
         border.setTitle(player.getName() + " Won!!!");
+        border.setTitleColor(Color.green);
         cards.repaint();
         revalidate();
         repaint();
@@ -76,6 +76,7 @@ public class PlayerView extends JPanel implements PlayerListener {
     @Override
     public void playerLost(Player player) {
         border.setTitle(player.getName() + " Lost!!!");
+        border.setTitleColor(Color.red);
         cards.repaint();
         revalidate();
         repaint();
@@ -84,6 +85,7 @@ public class PlayerView extends JPanel implements PlayerListener {
     @Override
     public void playerStandOff(Player player) {
         border.setTitle(player.getName() + " StandOff!!!");
+        border.setTitleColor(Color.darkGray);
         cards.repaint();
         revalidate();
         repaint();
