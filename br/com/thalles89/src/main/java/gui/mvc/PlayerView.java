@@ -24,6 +24,7 @@ public class PlayerView extends JPanel implements PlayerListener {
 
     @Override
     public void playerChanged(Player player) {
+        border.setTitle(player.getName());
         border.setTitleColor(Color.WHITE);
         cards.removeAll();
 

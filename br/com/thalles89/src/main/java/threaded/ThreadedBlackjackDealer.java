@@ -2,10 +2,7 @@ package threaded;
 
 import interfaces.Dealer;
 import interfaces.PlayerState;
-import model.BlackJackDealer;
-import model.DeckPile;
-import model.Hand;
-import model.Player;
+import model.*;
 
 public class ThreadedBlackjackDealer extends BlackJackDealer {
 
@@ -49,14 +46,11 @@ public class ThreadedBlackjackDealer extends BlackJackDealer {
         public void execute(Dealer dealer) {
 
             if (!bettingPlayers.isEmpty()) {
-
-                Player p = bettingPlayers.get(0);
-                Runnable runnable = () -> p.play(dealer);
-                runnable.run();
+                Player player = bettingPlayers.get(0);
+                bettingPlayers.remove(player);
+                Runnable runnable = () -> player.play(dealer);
                 Thread thread = new Thread(runnable);
                 thread.start();
-
-
             } else {
                 setCurrentState(getDealingState());
                 getCurrentState().execute(dealer);
@@ -90,15 +84,12 @@ public class ThreadedBlackjackDealer extends BlackJackDealer {
         public void execute(Dealer dealer) {
 
             if (!waitingPlayers.isEmpty()) {
-
                 Player player = waitingPlayers.get(0);
                 waitingPlayers.remove(player);
-
                 Runnable runnable = () -> player.play(dealer);
-                runnable.run();
+//                runnable.run();
                 Thread thread = new Thread(runnable);
                 thread.start();
-
             } else {
                 setCurrentState(getPlayingState());
                 exposeHand();

@@ -56,32 +56,35 @@ public class BlackjackMVC extends JFrame {
     private void setUp() {
 
         BlackJackDealer dealer = getDealer();
-        PlayerView v1 = getPlayerView(dealer);
+        PlayerView vdealer = getPlayerView(dealer);
 
-        GUIPlayer player1 = getHuman();
-        PlayerView v2 = getPlayerView(player1);
+        GUIPlayer human = getHuman();
+        PlayerView v1 = getPlayerView(human);
 
         SafePlayer player2 = getSafePlayer();
-        PlayerView v3 = getPlayerView(player2);
+        PlayerView v2 = getPlayerView(player2);
 
         OptimalPlayer player3 = getOptimalPlayer();
-        PlayerView v4 = getPlayerView(player3);
+        PlayerView v3 = getPlayerView(player3);
 
-        dealer.addPlayer(player1);
-//        dealer.addPlayer(player2);
+        FlipPlayer player4 = getFlipPlayer();
+        PlayerView v4 = getPlayerView(player4);
+
+
+        dealer.addPlayer(human);
+        dealer.addPlayer(player2);
 //        dealer.addPlayer(player3);
 
-        List<PlayerView> views = List.of(v1, v2);
-//        List<PlayerView> views = List.of(v1, v2, v3, v4);
+        addPlayers(List.of(vdealer, v1, v2));
+//        addPlayers(List.of(vdealer, v1));
 
-        addPlayers(views);
-
-        addOptionView(player1, dealer);
+        addOptionView(human, dealer);
     }
 
-    private BlackJackDealer getDealer() { // TODO REFATORAR DEALER MULTITRHEAD
+    private BlackJackDealer getDealer() {
         if (dealer == null) {
-            dealer = new BlackJackDealer("Dealer",
+            dealer = new ThreadedBlackjackDealer("Dealer",
+//            dealer = new BlackJackDealer("Dealer",
                     new Hand(),
                     getCards());
         }
@@ -105,7 +108,7 @@ public class BlackjackMVC extends JFrame {
 
     private String popupMessage() {
         return JOptionPane.showInputDialog(
-                null,
+                this,
                 "Como quer ser chamado",
                 "Qual é seu nome?",
                 JOptionPane.INFORMATION_MESSAGE);

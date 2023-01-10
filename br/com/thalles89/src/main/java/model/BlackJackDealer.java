@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BlackJackDealer extends Player implements Dealer {
     private final DeckPile deck;
-    private final List<Player> players = new ArrayList<>();
+    private final List<Player> players = new LinkedList<>();
     private List<Player> bustedPlayers;
     private List<Player> blackjackPlayers;
     protected List<Player> waitingPlayers;
@@ -72,11 +72,10 @@ public class BlackJackDealer extends Player implements Dealer {
     protected Boolean hit(Dealer dealer) {
         AtomicBoolean dealerMayHit = new AtomicBoolean(false);
         standingPlayers.forEach(player -> {
-            if (player.getHand().isGreaterThan(getHand())) {
-                dealerMayHit.set(true);
-            } else {
-                dealerMayHit.set(standingPlayers.size() > 0 && getHand().total() < 17);
+            if(getHand().total() >= 17 && getHand().total() <= 21){
+                dealerMayHit.set(false);
             }
+            dealerMayHit.set(player.getHand().isGreaterThan(getHand()));
         });
         return dealerMayHit.get();
     }
@@ -149,6 +148,7 @@ public class BlackJackDealer extends Player implements Dealer {
         }
         return null;
     }
+
     private class DealerBusted implements PlayerState {
 
         @Override
