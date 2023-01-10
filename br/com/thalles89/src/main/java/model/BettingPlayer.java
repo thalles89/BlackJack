@@ -19,26 +19,26 @@ public abstract class BettingPlayer extends Player {
 
     @Override
     public void win() {
-        super.win();
         bank.win();
+        super.win();
     }
 
     @Override
     public void lose() {
-        super.lose();
         bank.lose();
+        super.lose();
     }
 
     @Override
     public void standoff() {
-        super.standoff();
         bank.standoff();
+        super.standoff();
     }
 
     @Override
     public void blackjack() {
-        super.blackjack();
         bank.blackjack();
+        super.blackjack();
     }
 
     @Override

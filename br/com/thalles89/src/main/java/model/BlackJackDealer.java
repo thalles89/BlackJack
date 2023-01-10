@@ -40,9 +40,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
     @Override
     public void reset() {
-
         super.reset();
-
         waitingPlayers = new ArrayList<>();
         standingPlayers = new ArrayList<>();
         bustedPlayers = new ArrayList<>();
@@ -50,7 +48,6 @@ public class BlackJackDealer extends Player implements Dealer {
         bettingPlayers = new ArrayList<>(players);
         deck.reset();
         players.forEach(Player::reset);
-
     }
 
     public void newGame() {
@@ -72,12 +69,12 @@ public class BlackJackDealer extends Player implements Dealer {
     protected Boolean hit(Dealer dealer) {
         AtomicBoolean dealerMayHit = new AtomicBoolean(false);
         standingPlayers.forEach(player -> {
-            if(getHand().total() >= 17 && getHand().total() <= 21){
-                dealerMayHit.set(false);
+            if(getHand().total() < 17 ||player.getHand().isGreaterThan(getHand()) || getHand().total()<20){
+                dealerMayHit.set(true);
             }
-            dealerMayHit.set(player.getHand().isGreaterThan(getHand()));
         });
         return dealerMayHit.get();
+//    return (standingPlayers.size() > 0 && getHand().total() < 17);
     }
 
     @Override
@@ -193,6 +190,7 @@ public class BlackJackDealer extends Player implements Dealer {
 
         @Override
         public void handChanged() {
+            notifyChanged();
         }
 
         @Override
@@ -308,7 +306,6 @@ public class BlackJackDealer extends Player implements Dealer {
         public void execute(Dealer dealer) {
             deal();
             getCurrentState().execute(dealer);
-
         }
     }
 

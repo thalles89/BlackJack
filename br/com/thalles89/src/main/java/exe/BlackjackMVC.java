@@ -23,6 +23,7 @@ public class BlackjackMVC extends JFrame {
         JFrame frame = new BlackjackMVC();
         frame.getContentPane().setBackground(FOREST_GREEN);
         frame.setSize(1024, 768);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.setTitle("BlackJack");
     }
@@ -33,7 +34,7 @@ public class BlackjackMVC extends JFrame {
     SafePlayer safe;
     FlipPlayer flip;
     SmartPlayer smartPlayer;
-    private JPanel players = new JPanel(new GridLayout(0, 1));
+    private final JPanel players = new JPanel(new GridLayout(0, 2));
 
 
     public BlackjackMVC() {
@@ -56,7 +57,7 @@ public class BlackjackMVC extends JFrame {
     private void setUp() {
 
         BlackJackDealer dealer = getDealer();
-        PlayerView vdealer = getPlayerView(dealer);
+        PlayerView vDealer = getPlayerView(dealer);
 
         GUIPlayer human = getHuman();
         PlayerView v1 = getPlayerView(human);
@@ -70,13 +71,18 @@ public class BlackjackMVC extends JFrame {
         FlipPlayer player4 = getFlipPlayer();
         PlayerView v4 = getPlayerView(player4);
 
+        SmartPlayer player5 = getSmartPlayer();
+        PlayerView v5 = getPlayerView(player5);
+
 
         dealer.addPlayer(human);
         dealer.addPlayer(player2);
-//        dealer.addPlayer(player3);
+        dealer.addPlayer(player3);
+        dealer.addPlayer(player4);
+        dealer.addPlayer(player5);
 
-        addPlayers(List.of(vdealer, v1, v2));
-//        addPlayers(List.of(vdealer, v1));
+        addPlayers(List.of(vDealer, v1, v2, v3, v4, v5));
+//        addPlayers(List.of(vdealer, v1, v2, v3, v4));
 
         addOptionView(human, dealer);
     }
@@ -96,9 +102,11 @@ public class BlackjackMVC extends JFrame {
 
             String input = popupMessage();
 
+            Hand hand = new Hand();
             if (Objects.nonNull(input) && !input.equals("")) {
-                Hand hand = new Hand();
                 human = new GUIPlayer(input, hand, new Bank(1000));
+            }else{
+                human = new GUIPlayer("Player 1", hand, new Bank(1000));
             }
             return human;
 
@@ -108,7 +116,7 @@ public class BlackjackMVC extends JFrame {
 
     private String popupMessage() {
         return JOptionPane.showInputDialog(
-                this,
+                null,
                 "Como quer ser chamado",
                 "Qual é seu nome?",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -138,6 +146,14 @@ public class BlackjackMVC extends JFrame {
         return flip;
     }
 
+    private SmartPlayer getSmartPlayer() {
+        if (smartPlayer == null) {
+            Hand hand = new Hand();
+            smartPlayer = new SmartPlayer("Josiah", hand, new Bank(1000));
+        }
+        return smartPlayer;
+    }
+
     private DeckPile getCards() {
         DeckPile cards = new DeckPile();
         for (int i = 0; i < 4; i++) {
@@ -151,8 +167,8 @@ public class BlackjackMVC extends JFrame {
 
     private void addPlayers(List<PlayerView> views) {
         players.setBackground(FOREST_GREEN);
-        views.forEach(p -> players.add(p));
-        getContentPane().add(players, BorderLayout.NORTH);
+        views.forEach(players::add);
+        getContentPane().add(players, BorderLayout.CENTER);
     }
 
     private void addOptionView(GUIPlayer player, BlackJackDealer dealer) {
