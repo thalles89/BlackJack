@@ -39,10 +39,10 @@ public class BlackJackGame {
         CommandLinePlayer player1 = new CommandLinePlayer("player1", player1Hand, new Bank(1000));
         player1.addListener(Console.INSTANCE);
         Hand player2Hand = new Hand();
-        CommandLinePlayer player2 = new CommandLinePlayer("player2", player2Hand, new Bank(1000));
+        Player player2 = new SafePlayer("player2", player2Hand, new Bank(1000));
         player2.addListener(Console.INSTANCE);
         Hand player3Hand = new Hand();
-        CommandLinePlayer player3 = new CommandLinePlayer("player3", player3Hand, new Bank(1000));
+        Player player3 = new OptimalPlayer("player3", player3Hand, new Bank(1000));
         player3.addListener(Console.INSTANCE);
 
         dealer.addListener(Console.INSTANCE);
