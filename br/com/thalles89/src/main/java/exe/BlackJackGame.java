@@ -8,7 +8,7 @@ import model.*;
  */
 public class BlackJackGame {
 
-    private static Boolean playAgain(){
+    private static boolean playAgain(){
 
         while (true) {
             Console.INSTANCE.printMessage("Would like to play?\n[Y]es / [N]o");
@@ -38,9 +38,11 @@ public class BlackJackGame {
         Hand player1Hand = new Hand();
         CommandLinePlayer player1 = new CommandLinePlayer("player1", player1Hand, new Bank(1000));
         player1.addListener(Console.INSTANCE);
+
         Hand player2Hand = new Hand();
         Player player2 = new SafePlayer("player2", player2Hand, new Bank(1000));
         player2.addListener(Console.INSTANCE);
+
         Hand player3Hand = new Hand();
         Player player3 = new OptimalPlayer("player3", player3Hand, new Bank(1000));
         player3.addListener(Console.INSTANCE);

@@ -34,7 +34,7 @@ class VCard extends Card implements Displayable {
         if (isFaceUp()) {
             return image;
         }
-        return "br/com/thalles89/src/main/playing_cards/back_pile_red.png";
+        return "br/com/thalles89/src/main/java.playing_cards/back_pile_red.png";
     }
 
     @Override

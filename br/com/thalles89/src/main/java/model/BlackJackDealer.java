@@ -74,7 +74,6 @@ public class BlackJackDealer extends Player implements Dealer {
             }
         });
         return dealerMayHit.get();
-//    return (standingPlayers.size() > 0 && getHand().total() < 17);
     }
 
     @Override

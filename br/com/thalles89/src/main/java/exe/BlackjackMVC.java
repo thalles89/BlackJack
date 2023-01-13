@@ -1,11 +1,12 @@
 package exe;
 
+import model.*;
 import threaded.ThreadedBlackjackDealer;
 import gui.mvc.GUIPlayer;
 import gui.mvc.OptionView;
 import gui.mvc.PlayerView;
 import gui.mvc.VDeck;
-import model.*;
+
 
 import javax.swing.*;
 

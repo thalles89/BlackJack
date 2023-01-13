@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardView extends JLabel {
-    private final Icon icon;
+    private Icon icon;
     public CardView(VCard card) {
 
         try {
@@ -17,7 +17,7 @@ public class CardView extends JLabel {
             Image resultingImage = bufferedImage.getScaledInstance(
                     (bufferedImage.getWidth() / 5),
                     (bufferedImage.getHeight() / 5),
-                    Image.SCALE_SMOOTH);
+                    Image.SCALE_DEFAULT);
             icon = new ImageIcon(resultingImage);
             setIcon(icon);
 
@@ -26,7 +26,7 @@ public class CardView extends JLabel {
             setIcon(new ImageIcon(String.valueOf(file)));
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
